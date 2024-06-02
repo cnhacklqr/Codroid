@@ -7,7 +7,14 @@ const mobile = !!/android|ios/.exec(process.env.TAURI_ENV_PLATFORM);
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
-  plugins: [vue()],
+  plugins: [vue({
+    template: {
+      compilerOptions: {
+        // 所有以 mdui- 开头的标签名都是 mdui 组件
+        isCustomElement: (tag) => tag.startsWith('mdui-')
+      }
+    }
+  })],
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
