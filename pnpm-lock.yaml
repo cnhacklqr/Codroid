@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@mdui/icons':
+        specifier: ^1.0.2
+        version: 1.0.2
       '@tauri-apps/api':
         specifier: '>=2.0.0-beta.0'
         version: 2.0.0-beta.13
@@ -217,6 +220,9 @@ packages:
 
   '@material/material-color-utilities@0.2.7':
     resolution: {integrity: sha512-0FCeqG6WvK4/Cc06F/xXMd/pv4FeisI0c1tUpBbfhA2n9Y8eZEv4Karjbmf2ZqQCPUWMrGp8A571tCjizxoTiQ==}
+
+  '@mdui/icons@1.0.2':
+    resolution: {integrity: sha512-2Ffhka9dbJIq0wQo+daUjG2CGLRStRE4ngf3Me8PVurQCQEd4QI2Qb9nblACOFoK0/ZYy+u77uYM9yuoDSvxXA==}
 
   '@mdui/jq@3.0.1':
     resolution: {integrity: sha512-B6Dep5XgJHJAuFMDDzbWL5QNThRqExlmht/tpKkb6CF6iHVeGLY9Xpeuyc4qPdF452mFKtbde8jBO+vVJUxL/g==}
@@ -802,6 +808,12 @@ snapshots:
       '@lit-labs/ssr-dom-shim': 1.2.0
 
   '@material/material-color-utilities@0.2.7': {}
+
+  '@mdui/icons@1.0.2':
+    dependencies:
+      '@mdui/shared': 1.0.5
+      lit: 3.1.3
+      tslib: 2.6.2
 
   '@mdui/jq@3.0.1':
     dependencies:
