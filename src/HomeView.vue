@@ -25,7 +25,7 @@ function routeToProjectView() {
         <span slot="icon"><mdui-icon-add></mdui-icon-add></span>
       </mdui-list-item>
 
-      <mdui-list-item headline="Settings" description="configure Codroid">
+      <mdui-list-item headline="Settings" description="configure codroid">
         <span slot="icon"><mdui-icon-settings></mdui-icon-settings></span>
       </mdui-list-item>
 
