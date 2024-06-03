@@ -9,4 +9,13 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   ...pluginVue.configs["flat/essential"],
+  ...pluginVue.configs["flat/strongly-recommended"],
+  ...pluginVue.configs["flat/recommended"],
+  {
+    rules: {
+      // override/add rules settings here, such as:
+      // 'vue/no-unused-vars': 'error'
+      'vue/no-deprecated-slot-attribute': 'off'
+    }
+  }
 ];
