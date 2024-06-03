@@ -17,22 +17,33 @@ function routeToProjectView() {
 
 <template>
   <div class="container">
-    <mdui-icon-android class="titleIcon"></mdui-icon-android>
-    <h1 class="title">Codroid</h1>
+    <mdui-icon-android class="titleIcon" />
+    <h1 class="title">
+      Codroid
+    </h1>
 
     <mdui-list>
-      <mdui-list-item headline="Open Project" description="...and start coding" @click="routeToProjectView">
-        <span slot="icon"><mdui-icon-add></mdui-icon-add></span>
+      <mdui-list-item
+        headline="Open Project"
+        description="...and start coding"
+        @click="routeToProjectView"
+      >
+        <span slot="icon"><mdui-icon-add /></span>
       </mdui-list-item>
 
-      <mdui-list-item headline="Settings" description="configure Codroid">
-        <span slot="icon"><mdui-icon-settings></mdui-icon-settings></span>
+      <mdui-list-item
+        headline="Settings"
+        description="configure Codroid"
+      >
+        <span slot="icon"><mdui-icon-settings /></span>
       </mdui-list-item>
 
-      <mdui-list-item headline="About" description="author, licenses, etc.">
-        <span slot="icon"><mdui-icon-info></mdui-icon-info></span>
+      <mdui-list-item
+        headline="About"
+        description="author, licenses, etc."
+      >
+        <span slot="icon"><mdui-icon-info /></span>
       </mdui-list-item>
-
     </mdui-list>
   </div>
 </template>
