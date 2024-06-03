@@ -20,7 +20,7 @@ function routeToProjectView() {
     <mdui-icon-android class="titleIcon"></mdui-icon-android>
     <h1 class="title">Codroid</h1>
 
-    <mdui-list>
+    <mdui-list class="menu">
       <mdui-list-item headline="Open Project" description="...and start coding" @click="routeToProjectView">
         <span slot="icon"><mdui-icon-add></mdui-icon-add></span>
       </mdui-list-item>
@@ -46,10 +46,18 @@ function routeToProjectView() {
 .titleIcon {
   margin: auto;
   font-size: 130px;
+  padding-top: 25px;
 }
 
 .title {
   margin: auto;
   font-size: 30px;
+  padding-top: 10px;
+}
+
+.menu {
+  margin: auto;
+  padding: 25px;
+  padding-top: 80px;
 }
 </style>
