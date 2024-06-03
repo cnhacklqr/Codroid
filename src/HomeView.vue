@@ -22,17 +22,23 @@ function routeToProjectView() {
 
     <mdui-list class="menu">
       <mdui-list-item headline="Open Project" description="...and start coding" @click="routeToProjectView">
-        <span slot="icon"><mdui-icon-add></mdui-icon-add></span>
+        <template v-slot:icon>
+          <span><mdui-icon-add></mdui-icon-add></span>
+        </template>
       </mdui-list-item>
 
       <mdui-list-item headline="Settings" description="configure codroid">
-        <span slot="icon"><mdui-icon-settings></mdui-icon-settings></span>
+        <template v-slot:icon>
+          <span><mdui-icon-settings></mdui-icon-settings></span>
+        </template>
       </mdui-list-item>
 
       <mdui-list-item headline="About" description="author, licenses, etc.">
-        <span slot="icon"><mdui-icon-info></mdui-icon-info></span>
+        <template v-slot:icon>
+          <span><mdui-icon-info></mdui-icon-info></span>
+        </template>
       </mdui-list-item>
-      
+
     </mdui-list>
   </div>
 </template>
