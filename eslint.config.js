@@ -4,9 +4,10 @@ import tseslint from "typescript-eslint";
 import pluginVue from "eslint-plugin-vue";
 import eslintConfigPrettier from "eslint-config-prettier";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+import tsParser from "@typescript-eslint/parser";
+import vueParser from "vue-eslint-parser";
 
 export default [
-  { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
   pluginJs.configs.recommended,
   eslintConfigPrettier,
   ...tseslint.configs.recommended,
@@ -15,13 +16,26 @@ export default [
   ...pluginVue.configs["flat/recommended"],
   eslintPluginPrettierRecommended,
   {
+    ignores: ["src/vite-env.d.ts"],
+  },
+  {
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+      parser: vueParser,
+      parserOptions: {
+        parser: tsParser,
+        parserOptions: {
+          parser: tsParser,
+        },
+      },
+    },
     rules: {
       // override/add rules settings here, such as:
       // 'vue/no-unused-vars': 'error'
       "vue/no-deprecated-slot-attribute": "off",
     },
-  },
-  {
-    ignores: ["src/vite-env.d.ts"],
   },
 ];
