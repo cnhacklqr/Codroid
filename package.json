@@ -30,6 +30,7 @@
     "eslint-plugin-vue": "^9.26.0",
     "globals": "^15.3.0",
     "internal-ip": "^7.0.0",
+    "monaco-editor-webpack-plugin": "^7.1.0",
     "prettier": "3.3.0",
     "typescript": "^5.0.2",
     "typescript-eslint": "^7.11.0",
