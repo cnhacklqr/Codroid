@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import * as monaco from "monaco-editor";
-import { onMounted, ref } from "vue";
+import CodeEditor from "./components/CodeEditor.vue";
 import "mdui/components/layout.js";
 import "mdui/components/layout-item.js";
 import "mdui/components/layout-main.js";
@@ -9,17 +8,6 @@ import "mdui/components/top-app-bar-title.js";
 import "mdui/components/navigation-rail.js";
 import "mdui/components/navigation-rail-item.js";
 import "@mdui/icons/file-open.js";
-
-const container = ref<HTMLElement | null>(null);
-
-onMounted(() => {
-  if (container.value) {
-    monaco.editor.create(container.value, {
-      value: "function hello() {\n\talert('Hello world!');\n}",
-      language: "javascript",
-    });
-  }
-});
 </script>
 
 <template>
@@ -33,8 +21,14 @@ onMounted(() => {
         <span slot="icon"><mdui-icon-file-open /></span>
       </mdui-navigation-rail-item>
     </mdui-navigation-rail>
-    <mdui-layout-main class="example-layout-main" style="min-height: 300px">
-      <div ref="container"></div>
+    <mdui-layout-main class="editor" style="min-height: 300px">
+      <CodeEditor class="editor" />
     </mdui-layout-main>
   </mdui-layout>
 </template>
+
+<style scoped>
+.editor {
+  width: 100％;
+}
+</style>
