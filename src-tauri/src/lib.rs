@@ -2,6 +2,7 @@
 #![warn(clippy::nursery)]
 #![allow(clippy::missing_panics_doc)]
 mod android;
+mod proot;
 mod res;
 
 use res::Resources;

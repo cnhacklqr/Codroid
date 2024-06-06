@@ -1,6 +1,7 @@
 use std::{
     fs::{self, File},
     io::{Read, Write},
+    path::PathBuf,
 };
 
 use anyhow::Result;
@@ -16,9 +17,13 @@ use crate::android::private_android_data;
 pub struct Resources;
 
 impl Resources {
-    pub fn auto_update() -> Result<()> {
+    pub fn resources_dir() -> PathBuf {
         let data_dir = private_android_data();
-        let resources_dir = data_dir.join("resources");
+        data_dir.join("resources")
+    }
+
+    pub fn auto_update() -> Result<()> {
+        let resources_dir = Self::resources_dir();
 
         let _ = fs::create_dir(&resources_dir);
         for relative_path in Self::iter() {
