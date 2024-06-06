@@ -5,8 +5,8 @@
     "css.customData": [
         "./node_modules/mdui/css-data.zh-cn.json"
     ],
-    "editor.formatOnSave": false,
-    "editor.formatOnPaste": false,
+    "editor.formatOnSave":  true,
+    "editor.formatOnPaste": true,
     "eslint.validate": [
         "javascript",
         "javascriptreact",
