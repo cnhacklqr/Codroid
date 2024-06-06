@@ -1,0 +1,9 @@
+# sidecar
+sidecar/* filter=lfs diff=lfs merge=lfs -text
+!sidecar/README.md filter=lfs
+!sidecar/sources/* filter=lfs
+
+# res
+res/* filter=lfs diff=lfs merge=lfs -text
+!res/README.md filter=lfs
+!res/sources/* filter=lfs
