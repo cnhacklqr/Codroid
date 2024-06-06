@@ -27,18 +27,18 @@ export default defineConfig(async () => ({
     chunkSizeWarningLimit: 5000,
     rollupOptions: {
       output: {
-        manualChunks: {         
+        manualChunks: {
           codemirror: [
             // Split CodeMirror code.
-            'vue-codemirror6',
-            'codemirror',
-            '@codemirror/autocomplete',
-            '@codemirror/commands',
-            '@codemirror/language',
-            '@codemirror/lint',
-            '@codemirror/search',
-            '@codemirror/state',
-            '@codemirror/view',
+            "vue-codemirror6",
+            "codemirror",
+            "@codemirror/autocomplete",
+            "@codemirror/commands",
+            "@codemirror/language",
+            "@codemirror/lint",
+            "@codemirror/search",
+            "@codemirror/state",
+            "@codemirror/view",
           ],
         },
       },
