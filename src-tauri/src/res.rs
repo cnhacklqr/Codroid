@@ -10,7 +10,7 @@ use crate::android::private_android_data;
 
 #[derive(Embed)]
 #[folder = "res"]
-#[include = "*"]
+#[include = "**"]
 #[exclude = "README.md"]
 #[exclude = "sources/*"]
 pub struct Resources;
@@ -48,7 +48,7 @@ impl Resources {
         Ok(())
     }
 
-    fn verify(emed: &EmbeddedFile, verification_file: &mut File) -> bool {
+    pub fn verify(emed: &EmbeddedFile, verification_file: &mut File) -> bool {
         Self::read_verification_file(verification_file).map_or(false, |verification| {
             emed.metadata.sha256_hash() == verification
         })
