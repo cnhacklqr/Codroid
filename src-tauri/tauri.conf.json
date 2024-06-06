@@ -33,7 +33,7 @@
       "res/*"
     ],
     "externalBin": [
-      "sidecar/*"
+      "sidecar/rust-analyzer"
     ]
   }
 }
