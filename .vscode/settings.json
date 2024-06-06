@@ -11,5 +11,6 @@
         "javascript",
         "javascriptreact",
         "vue"
-    ]
+    ],
+    "rust-analyzer.check.command": "clippy",
 }
