@@ -62,7 +62,8 @@ impl Resources {
         })
     }
 
-    fn update_file(
+    #[allow(clippy::unused_async)]
+    async fn update_file(
         absolute_path: PathBuf,
         verification_path: PathBuf,
         embed_file: EmbeddedFile,
