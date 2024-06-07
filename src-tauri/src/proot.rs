@@ -8,7 +8,7 @@ use crate::{
     res::Resources,
 };
 
-pub fn setup_rootfs() -> Result<()> {
+pub async fn setup_rootfs() -> Result<()> {
     let linux_root = private_android_data().join("linux_root");
 
     if linux_root

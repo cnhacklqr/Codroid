@@ -6,6 +6,7 @@ use std::{
 
 use anyhow::{anyhow, Result};
 use rust_embed::{Embed, EmbeddedFile};
+use tokio::task::JoinSet;
 
 use crate::android::private_android_data;
 
@@ -22,10 +23,11 @@ impl Resources {
         data_dir.join("resources")
     }
 
-    pub fn auto_update() -> Result<()> {
+    pub async fn auto_update() -> Result<()> {
         let resources_dir = Self::resources_dir();
 
         let _ = fs::create_dir(&resources_dir);
+        let mut task_set = JoinSet::new();
         for relative_path in Self::iter() {
             let relative_path = relative_path.as_ref();
             let absolute_path = resources_dir.join(relative_path);
@@ -40,14 +42,15 @@ impl Resources {
                 }
             }
 
-            // update file
-            let _ = fs::remove_file(&absolute_path);
-            let mut resource_file = Self::create_file_all(&absolute_path)?;
-            resource_file.write_all(embed_file.data.as_ref())?;
+            task_set.spawn(Self::update_file(
+                absolute_path,
+                relative_path.into(),
+                embed_file,
+            ));
+        }
 
-            let _ = fs::remove_file(&verification_path);
-            let mut verification_file = File::create(&verification_path)?;
-            verification_file.write_all(&embed_file.metadata.sha256_hash())?;
+        while let Some(result) = task_set.join_next().await {
+            result??;
         }
 
         Ok(())
@@ -57,6 +60,23 @@ impl Resources {
         Self::read_verification_file(verification_file).map_or(false, |verification| {
             emed.metadata.sha256_hash() == verification
         })
+    }
+
+    fn update_file(
+        absolute_path: PathBuf,
+        verification_path: PathBuf,
+        embed_file: EmbeddedFile,
+    ) -> Result<()> {
+        // update file
+        let _ = fs::remove_file(&absolute_path);
+        let mut resource_file = Self::create_file_all(&absolute_path)?;
+        resource_file.write_all(embed_file.data.as_ref())?;
+
+        let _ = fs::remove_file(&verification_path);
+        let mut verification_file = File::create(&verification_path)?;
+        verification_file.write_all(&embed_file.metadata.sha256_hash())?;
+
+        Ok(())
     }
 
     fn read_verification_file(verification_file: &mut File) -> Result<[u8; 32]> {
