@@ -1,10 +1,10 @@
 use std::{
     fs::{self, File},
     io::{Read, Write},
-    path::PathBuf,
+    path::{Path, PathBuf},
 };
 
-use anyhow::Result;
+use anyhow::{anyhow, Result};
 use rust_embed::{Embed, EmbeddedFile};
 
 use crate::android::private_android_data;
@@ -42,7 +42,7 @@ impl Resources {
 
             // update file
             let _ = fs::remove_file(&absolute_path);
-            let mut resource_file = File::create(&absolute_path)?;
+            let mut resource_file = Self::create_file_all(&absolute_path)?;
             resource_file.write_all(embed_file.data.as_ref())?;
 
             let _ = fs::remove_file(&verification_path);
@@ -63,5 +63,22 @@ impl Resources {
         let mut verification = [0u8; 32];
         verification_file.read_exact(&mut verification)?;
         Ok(verification)
+    }
+
+    fn create_file_all<P: AsRef<Path>>(path: P) -> Result<File> {
+        let path = path.as_ref();
+
+        if path.is_dir() {
+            return Err(anyhow!("The path parameter is not a file"));
+        }
+
+        if let Some(dir) = path.parent() {
+            if !dir.exists() {
+                fs::create_dir_all(dir)?;
+            }
+        }
+
+        let file = File::create(path)?;
+        Ok(file)
     }
 }
