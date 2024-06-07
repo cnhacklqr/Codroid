@@ -6,6 +6,7 @@ mod proot;
 mod res;
 
 use res::Resources;
+use proot::setup_rootfs;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -16,6 +17,7 @@ fn greet(name: &str) -> String {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     Resources::auto_update().unwrap();
+    setup_rootfs();
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![greet])
