@@ -1,4 +1,5 @@
 import java.util.Properties
+import android.annotation.SuppressLint
 
 plugins {
     id("com.android.application")
@@ -23,6 +24,9 @@ android {
         targetSdk = 28
         versionCode = tauriProperties.getProperty("tauri.android.versionCode", "1").toInt()
         versionName = tauriProperties.getProperty("tauri.android.versionName", "1.0")
+    }
+    lintOptions {
+        lint.disable += "ExpiredTargetSdkVersion"
     }
     buildTypes {
         getByName("debug") {
