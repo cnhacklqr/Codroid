@@ -42,11 +42,12 @@ impl Resources {
                 }
             }
 
-            task_set.spawn(Self::update_file(
-                absolute_path,
-                relative_path.into(),
-                embed_file,
-            ));
+            {
+                let relative_path = relative_path.to_string();
+                task_set.spawn(async move {
+                    Self::update_file(absolute_path, relative_path.into(), embed_file)
+                });
+            }
         }
 
         while let Some(result) = task_set.join_next().await {
@@ -62,8 +63,7 @@ impl Resources {
         })
     }
 
-    #[allow(clippy::unused_async)]
-    async fn update_file(
+    fn update_file(
         absolute_path: PathBuf,
         verification_path: PathBuf,
         embed_file: EmbeddedFile,
