@@ -5,7 +5,6 @@ import HomeView from "./HomeView.vue";
 import ProjectView from "./ProjectView.vue";
 import SettingsView from "./SettingsView.vue";
 import AboutView from "./HomeView.vue";
-import "mdui/mdui.css";
 
 const routes = [
   { path: "/", component: HomeView },

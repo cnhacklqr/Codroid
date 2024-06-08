@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import "@mdui/icons/android.js";
-import "mdui/components/list.js";
-import "mdui/components/list-item.js";
-import "mdui/components/list-subheader.js";
 import "@mdui/icons/add.js";
 import "@mdui/icons/settings.js";
 import "@mdui/icons/info.js";
 import { useRouter } from "vue-router";
+import { VList, VListItem } from "vuetify/components";
 
 const router = useRouter();
 
@@ -20,23 +18,29 @@ function routeToProjectView() {
     <mdui-icon-android class="titleIcon" />
     <h1 class="title">Codroid</h1>
 
-    <mdui-list>
-      <mdui-list-item
-        headline="Open Project"
-        description="...and start coding"
+    <v-list>
+      <v-list-item
+        title="Open Project"
+        subtitle="...and start coding"
         @click="routeToProjectView"
       >
-        <span slot="icon"><mdui-icon-add /></span>
-      </mdui-list-item>
+        <template #prepend>
+          <mdui-icon-add />
+        </template>
+      </v-list-item>
 
-      <mdui-list-item headline="Settings" description="configure Codroid">
-        <span slot="icon"><mdui-icon-settings /></span>
-      </mdui-list-item>
+      <v-list-item title="Settings" subtitle="configure Codroid">
+        <template #prepend>
+          <mdui-icon-settings />
+        </template>
+      </v-list-item>
 
-      <mdui-list-item headline="About" description="author, licenses, etc.">
-        <span slot="icon"><mdui-icon-info /></span>
-      </mdui-list-item>
-    </mdui-list>
+      <v-list-item title="About" subtitle="author, licenses, etc.">
+        <template #prepend>
+          <mdui-icon-info />
+        </template>
+      </v-list-item>
+    </v-list>
   </div>
 </template>
 
