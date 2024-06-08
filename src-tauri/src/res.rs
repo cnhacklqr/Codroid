@@ -45,7 +45,7 @@ impl Resources {
             {
                 let relative_path = relative_path.to_string();
                 task_set.spawn(async move {
-                    Self::update_file(absolute_path, relative_path.into(), embed_file)
+                    Self::update_file(absolute_path, relative_path.into(), &embed_file)
                 });
             }
         }
@@ -63,18 +63,21 @@ impl Resources {
         })
     }
 
-    fn update_file(
-        absolute_path: PathBuf,
-        verification_path: PathBuf,
-        embed_file: EmbeddedFile,
+    fn update_file<P: AsRef<Path>>(
+        absolute_path: P,
+        verification_path: P,
+        embed_file: &EmbeddedFile,
     ) -> Result<()> {
+        let absolute_path = absolute_path.as_ref();
+        let verification_path = verification_path.as_ref();
+
         // update file
-        let _ = fs::remove_file(&absolute_path);
-        let mut resource_file = Self::create_file_all(&absolute_path)?;
+        let _ = fs::remove_file(absolute_path);
+        let mut resource_file = Self::create_file_all(absolute_path)?;
         resource_file.write_all(embed_file.data.as_ref())?;
 
-        let _ = fs::remove_file(&verification_path);
-        let mut verification_file = File::create(&verification_path)?;
+        let _ = fs::remove_file(verification_path);
+        let mut verification_file = File::create(verification_path)?;
         verification_file.write_all(&embed_file.metadata.sha256_hash())?;
 
         Ok(())
