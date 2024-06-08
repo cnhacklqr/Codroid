@@ -9,12 +9,12 @@ import vueParser from "vue-eslint-parser";
 
 export default [
   pluginJs.configs.recommended,
-  eslintConfigPrettier,
   ...tseslint.configs.recommended,
   ...pluginVue.configs["flat/essential"],
   ...pluginVue.configs["flat/strongly-recommended"],
   ...pluginVue.configs["flat/recommended"],
   eslintPluginPrettierRecommended,
+  eslintConfigPrettier,
   {
     ignores: ["src/vite-env.d.ts"],
   },
