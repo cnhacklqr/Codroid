@@ -15,6 +15,7 @@ use crate::android::private_android_data;
 #[include = "**"]
 #[exclude = "README.md"]
 #[exclude = "sources/*"]
+#[exclude = ".gitattributes"]
 pub struct Resources;
 
 impl Resources {
