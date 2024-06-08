@@ -23,7 +23,7 @@ pub fn run() {
         .setup(|app| {
             async_runtime::block_on(Resources::auto_update())?;
             async_runtime::spawn(async {
-                setup_rootfs().await.unwrap();
+                setup_rootfs().unwrap();
             });
             Ok(())
         })
