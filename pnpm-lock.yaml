@@ -29,9 +29,6 @@ importers:
       '@codemirror/view':
         specifier: ^6.27.0
         version: 6.27.0
-      '@mdui/icons':
-        specifier: ^1.0.2
-        version: 1.0.2
       '@tauri-apps/api':
         specifier: 2.0.0-beta.13
         version: 2.0.0-beta.13
@@ -60,6 +57,9 @@ importers:
       '@eslint/js':
         specifier: ^9.4.0
         version: 9.4.0
+      '@mdi/font':
+        specifier: ^7.4.47
+        version: 7.4.47
       '@tauri-apps/cli':
         specifier: 2.0.0-beta.20
         version: 2.0.0-beta.20
@@ -359,20 +359,8 @@ packages:
   '@lezer/lr@1.4.1':
     resolution: {integrity: sha512-CHsKq8DMKBf9b3yXPDIU4DbH+ZJd/sJdYOW2llbW/HudP5u0VS6Bfq1hLYfgU7uAYGFIyGGQIsSOXGPEErZiJw==}
 
-  '@lit-labs/ssr-dom-shim@1.2.0':
-    resolution: {integrity: sha512-yWJKmpGE6lUURKAaIltoPIE/wrbY3TEkqQt+X0m+7fQNnAv0keydnYvbiJFP1PnMhizmIWRWOG5KLhYyc/xl+g==}
-
-  '@lit/reactive-element@2.0.4':
-    resolution: {integrity: sha512-GFn91inaUa2oHLak8awSIigYz0cU0Payr1rcFsrkf5OJ5eSPxElyZfKh0f2p9FsTiZWXQdWGJeXZICEfXXYSXQ==}
-
-  '@mdui/icons@1.0.2':
-    resolution: {integrity: sha512-2Ffhka9dbJIq0wQo+daUjG2CGLRStRE4ngf3Me8PVurQCQEd4QI2Qb9nblACOFoK0/ZYy+u77uYM9yuoDSvxXA==}
-
-  '@mdui/jq@3.0.1':
-    resolution: {integrity: sha512-B6Dep5XgJHJAuFMDDzbWL5QNThRqExlmht/tpKkb6CF6iHVeGLY9Xpeuyc4qPdF452mFKtbde8jBO+vVJUxL/g==}
-
-  '@mdui/shared@1.0.5':
-    resolution: {integrity: sha512-5ypE0/p5ijI0jG/ioXd38mXUjYnIU7hr7fMKLG7Zhugkw9A7rkhstLLDzvuH6tDOOsx8co5/lny1WFwSPagI4A==}
+  '@mdi/font@7.4.47':
+    resolution: {integrity: sha512-43MtGpd585SNzHZPcYowu/84Vz2a2g31TvPMTm9uTiCSWzaheQySUcSyUH/46fPnuPQWof2yd0pGBtzee/IQWw==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -388,9 +376,6 @@ packages:
 
   '@open-rpc/client-js@1.8.1':
     resolution: {integrity: sha512-vV+Hetl688nY/oWI9IFY0iKDrWuLdYhf7OIKI6U1DcnJV7r4gAgwRJjEr1QVYszUc0gjkHoQJzqevmXMGLyA0g==}
-
-  '@open-wc/dedupe-mixin@1.4.0':
-    resolution: {integrity: sha512-Sj7gKl1TLcDbF7B6KUhtvr+1UCxdhMbNY5KxdU5IfMFWqL8oy1ZeAcCANjoB1TL0AJTcPmcCFsCbHf8X2jGDUA==}
 
   '@pkgr/core@0.1.1':
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
@@ -576,9 +561,6 @@ packages:
 
   '@types/node@20.14.1':
     resolution: {integrity: sha512-T2MzSGEu+ysB/FkWfqmhV3PLyQlowdptmmgD20C6QxsS8Fmv5SjpZ1ayXaEC0S21/h5UJ9iA6W/5vSNU5l00OA==}
-
-  '@types/trusted-types@2.0.7':
-    resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
 
   '@typescript-eslint/eslint-plugin@7.12.0':
     resolution: {integrity: sha512-7F91fcbuDf/d3S8o21+r3ZncGIke/+eWk0EpO21LXhDfLahriZF9CGj4fbAetEjlaBdjdSm9a6VeXbpbT6Z40Q==}
@@ -1077,15 +1059,6 @@ packages:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
 
-  lit-element@4.0.6:
-    resolution: {integrity: sha512-U4sdJ3CSQip7sLGZ/uJskO5hGiqtlpxndsLr6mt3IQIjheg93UKYeGQjWMRql1s/cXNOaRrCzC2FQwjIwSUqkg==}
-
-  lit-html@3.1.4:
-    resolution: {integrity: sha512-yKKO2uVv7zYFHlWMfZmqc+4hkmSbFp8jgjdZY9vvR9jr4J8fH6FUMXhr+ljfELgmjpvlF7Z1SJ5n5/Jeqtc9YA==}
-
-  lit@3.1.4:
-    resolution: {integrity: sha512-q6qKnKXHy2g1kjBaNfcoLlgbI3+aSOZ9Q4tiGa9bGYXq5RBXxkVTqTIVmP2VWMp29L4GyvCFm8ZQ2o56eUAMyA==}
-
   locate-path@6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
@@ -1284,9 +1257,6 @@ packages:
   source-map@0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
-
-  ssr-window@4.0.2:
-    resolution: {integrity: sha512-ISv/Ch+ig7SOtw7G2+qkwfVASzazUnvlDTwypdLoPoySv+6MqlOV10VwPSE6EWkGjhW50lUmghPmpYZXMu/+AQ==}
 
   strict-event-emitter-types@2.0.0:
     resolution: {integrity: sha512-Nk/brWYpD85WlOgzw5h173aci0Teyv8YdIAEtV+N88nDB0dLlazZyJMIsN6eo1/AR61l+p6CJTG1JIyFaoNEEA==}
@@ -1731,30 +1701,7 @@ snapshots:
     dependencies:
       '@lezer/common': 1.2.1
 
-  '@lit-labs/ssr-dom-shim@1.2.0': {}
-
-  '@lit/reactive-element@2.0.4':
-    dependencies:
-      '@lit-labs/ssr-dom-shim': 1.2.0
-
-  '@mdui/icons@1.0.2':
-    dependencies:
-      '@mdui/shared': 1.0.5
-      lit: 3.1.4
-      tslib: 2.6.3
-
-  '@mdui/jq@3.0.1':
-    dependencies:
-      ssr-window: 4.0.2
-      tslib: 2.6.3
-
-  '@mdui/shared@1.0.5':
-    dependencies:
-      '@mdui/jq': 3.0.1
-      '@open-wc/dedupe-mixin': 1.4.0
-      lit: 3.1.4
-      ssr-window: 4.0.2
-      tslib: 2.6.3
+  '@mdi/font@7.4.47': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -1778,8 +1725,6 @@ snapshots:
       - bufferutil
       - encoding
       - utf-8-validate
-
-  '@open-wc/dedupe-mixin@1.4.0': {}
 
   '@pkgr/core@0.1.1': {}
 
@@ -1898,8 +1843,6 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
     optional: true
-
-  '@types/trusted-types@2.0.7': {}
 
   '@typescript-eslint/eslint-plugin@7.12.0(@typescript-eslint/parser@7.12.0(eslint@9.4.0)(typescript@5.4.5))(eslint@9.4.0)(typescript@5.4.5)':
     dependencies:
@@ -2496,22 +2439,6 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
 
-  lit-element@4.0.6:
-    dependencies:
-      '@lit-labs/ssr-dom-shim': 1.2.0
-      '@lit/reactive-element': 2.0.4
-      lit-html: 3.1.4
-
-  lit-html@3.1.4:
-    dependencies:
-      '@types/trusted-types': 2.0.7
-
-  lit@3.1.4:
-    dependencies:
-      '@lit/reactive-element': 2.0.4
-      lit-element: 4.0.6
-      lit-html: 3.1.4
-
   locate-path@6.0.0:
     dependencies:
       p-locate: 5.0.0
@@ -2689,8 +2616,6 @@ snapshots:
 
   source-map@0.6.1:
     optional: true
-
-  ssr-window@4.0.2: {}
 
   strict-event-emitter-types@2.0.0: {}
 
