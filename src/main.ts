@@ -7,6 +7,7 @@ import SettingsView from "./SettingsView.vue";
 import AboutView from "./HomeView.vue";
 import "vuetify/styles";
 import { createVuetify } from "vuetify";
+import "@mdi/font/css/materialdesignicons.css";
 
 const routes = [
   { path: "/", component: HomeView },
@@ -20,6 +21,10 @@ const router = createRouter({
   routes,
 });
 
-const vuetify = createVuetify();
+const vuetify = createVuetify({
+  icons: {
+    defaultSet: "mdi",
+  },
+});
 
 createApp(App).use(router).use(vuetify).mount("#app");

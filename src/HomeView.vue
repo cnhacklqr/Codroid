@@ -22,23 +22,26 @@ function routeToProjectView() {
       <v-list-item
         title="Open Project"
         subtitle="...and start coding"
+        prepend-icon="mdi-code-braces"
+        append-icon="mdi-menu-right"
         @click="routeToProjectView"
       >
-        <template #prepend>
-          <mdui-icon-add />
-        </template>
       </v-list-item>
 
-      <v-list-item title="Settings" subtitle="configure Codroid">
-        <template #prepend>
-          <mdui-icon-settings />
-        </template>
+      <v-list-item
+        title="Settings"
+        subtitle="configure Codroid"
+        prepend-icon="mdi-cogs"
+        append-icon="mdi-menu-right"
+      >
       </v-list-item>
 
-      <v-list-item title="About" subtitle="author, licenses, etc.">
-        <template #prepend>
-          <mdui-icon-info />
-        </template>
+      <v-list-item
+        title="About"
+        subtitle="author, licenses, etc."
+        prepend-icon="mdi-information-outline"
+        append-icon="mdi-menu-right"
+      >
       </v-list-item>
     </v-list>
   </div>
@@ -48,6 +51,7 @@ function routeToProjectView() {
 .container {
   display: flex;
   flex-direction: column;
+  padding: 100px;
 }
 
 .titleIcon {
@@ -58,5 +62,6 @@ function routeToProjectView() {
 .title {
   margin: auto;
   font-size: 30px;
+  padding-bottom: 25px;
 }
 </style>
