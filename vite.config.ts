@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { internalIpV4 } from "internal-ip";
 import eslintPlugin from "@yf-ui/vite-plugin-eslint";
+import vuetify from "vite-plugin-vuetify";
 
 // @ts-expect-error process is a nodejs global
 const mobile = !!/android|ios/.exec(process.env.TAURI_ENV_PLATFORM);
@@ -10,6 +11,7 @@ const mobile = !!/android|ios/.exec(process.env.TAURI_ENV_PLATFORM);
 export default defineConfig(async () => ({
   plugins: [
     vue(),
+    vuetify(),
     eslintPlugin({
       fix: true, //修复错误
       include: ["src/**/*.vue", "src/**/*.ts", "src/**/*.js"],
