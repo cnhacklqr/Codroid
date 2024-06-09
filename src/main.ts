@@ -5,6 +5,8 @@ import HomeView from "./HomeView.vue";
 import ProjectView from "./ProjectView.vue";
 import SettingsView from "./SettingsView.vue";
 import AboutView from "./HomeView.vue";
+import "vuetify/styles";
+import { createVuetify } from "vuetify";
 
 const routes = [
   { path: "/", component: HomeView },
@@ -18,4 +20,6 @@ const router = createRouter({
   routes,
 });
 
-createApp(App).use(router).mount("#app");
+const vuetify = createVuetify();
+
+createApp(App).use(router).use(vuetify).mount("#app");
