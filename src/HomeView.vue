@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import "@mdui/icons/android.js";
-import "@mdui/icons/add.js";
-import "@mdui/icons/settings.js";
-import "@mdui/icons/info.js";
 import { useRouter } from "vue-router";
-import { VList, VListItem } from "vuetify/components";
+import { VList, VListItem, VIcon } from "vuetify/components";
 
 const router = useRouter();
 
@@ -15,7 +11,7 @@ function routeToProjectView() {
 
 <template>
   <div class="container">
-    <mdui-icon-android class="titleIcon" />
+    <v-icon icon="mdi-android-studio" class="titleIcon"></v-icon>
     <h1 class="title">Codroid</h1>
 
     <v-list>
