@@ -15,7 +15,7 @@ val tauriProperties = Properties().apply {
 }
 
 android {
-    compileSdk = 34
+    compileSdk = 33
     namespace = "com.shadow3aaa.codroid"
     defaultConfig {
         manifestPlaceholders["usesCleartextTraffic"] = "false"
