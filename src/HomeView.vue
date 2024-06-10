@@ -1,8 +1,28 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { VList, VListItem, VIcon } from "vuetify/components";
+import { listen } from "@tauri-apps/api/event";
+import { invoke } from "@tauri-apps/api/core";
 
 const router = useRouter();
+
+const setupProcess = ref("Waiting until setup process complete...");
+const setupCompleted = ref(false);
+invoke("init_resources").then(() => {
+  listenSetupProcess();
+});
+
+function listenSetupProcess() {
+  listen("setup-process", (event) => {
+    const message = event.payload;
+    setupProcess.value += `\n${message}`;
+
+    if (message === "All done.") {
+      setupCompleted.value = true;
+    }
+  });
+}
 
 function routeToProjectView() {
   router.push("/project");
@@ -21,6 +41,7 @@ function routeToProjectView() {
         prepend-icon="mdi-code-braces"
         append-icon="mdi-menu-right"
         rounded="xl"
+        :disabled="!setupCompleted"
         @click="routeToProjectView"
       >
       </v-list-item>
@@ -31,6 +52,7 @@ function routeToProjectView() {
         prepend-icon="mdi-cogs"
         append-icon="mdi-menu-right"
         rounded="xl"
+        :disabled="!setupCompleted"
       >
       </v-list-item>
 
@@ -43,6 +65,8 @@ function routeToProjectView() {
       >
       </v-list-item>
     </v-list>
+
+    <h5 class="setupProcess">{{ setupProcess }}</h5>
   </div>
 </template>
 
@@ -66,5 +90,9 @@ function routeToProjectView() {
 .menu {
   margin: auto;
   width: 80%;
+}
+
+.setupProcess {
+  margin: auto;
 }
 </style>
