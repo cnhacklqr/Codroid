@@ -14,7 +14,7 @@ function routeToProjectView() {
     <v-icon icon="mdi-android-studio" class="titleIcon"></v-icon>
     <h1 class="title">Codroid</h1>
 
-    <v-list>
+    <v-list class="menu">
       <v-list-item
         title="Open Project"
         subtitle="...and start coding"
@@ -47,7 +47,6 @@ function routeToProjectView() {
 .container {
   display: flex;
   flex-direction: column;
-  padding: 50px;
 }
 
 .titleIcon {
@@ -59,5 +58,10 @@ function routeToProjectView() {
   margin: auto;
   font-size: 30px;
   padding-bottom: 25px;
+}
+
+.menu {
+  margin: auto;
+  width: 80%;
 }
 </style>
