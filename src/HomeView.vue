@@ -20,6 +20,7 @@ function routeToProjectView() {
         subtitle="...and start coding"
         prepend-icon="mdi-code-braces"
         append-icon="mdi-menu-right"
+        rounded="xl"
         @click="routeToProjectView"
       >
       </v-list-item>
@@ -29,6 +30,7 @@ function routeToProjectView() {
         subtitle="configure Codroid"
         prepend-icon="mdi-cogs"
         append-icon="mdi-menu-right"
+        rounded="xl"
       >
       </v-list-item>
 
@@ -37,6 +39,7 @@ function routeToProjectView() {
         subtitle="author, licenses, etc."
         prepend-icon="mdi-information-outline"
         append-icon="mdi-menu-right"
+        rounded="xl"
       >
       </v-list-item>
     </v-list>
