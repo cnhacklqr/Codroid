@@ -47,7 +47,7 @@ function routeToProjectView() {
 .container {
   display: flex;
   flex-direction: column;
-  padding: 100px;
+  padding: 50px;
 }
 
 .titleIcon {
