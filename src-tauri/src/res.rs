@@ -43,12 +43,9 @@ impl Resources {
                 }
             }
 
-            {
-                let relative_path = relative_path.to_string();
                 task_set.spawn(async move {
-                    Self::update_file(absolute_path, relative_path.into(), &embed_file)
+                    Self::update_file(absolute_path, verification_path, &embed_file)
                 });
-            }
         }
 
         while let Some(result) = task_set.join_next().await {
