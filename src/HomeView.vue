@@ -1,28 +1,38 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { VList, VListItem, VIcon } from "vuetify/components";
-import { listen } from "@tauri-apps/api/event";
+import { listen, UnlistenFn } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/core";
 
-const router = useRouter();
+interface Payload {
+  message: string;
+}
 
+let unlisten: UnlistenFn | null = null;
+
+const router = useRouter();
 const setupProcess = ref("Waiting until setup process complete...");
 const setupCompleted = ref(false);
-invoke("init_resources").then(() => {
-  listenSetupProcess();
+
+const init_resources = async () => {
+  await invoke("init_resources").then(() => {
+    setupCompleted.value = true;
+  });
+};
+
+init_resources();
+
+onMounted(async () => {
+  unlisten = await listen<Payload>("setup-process", (event) => {
+    const { message } = event.payload;
+    setupProcess.value += `\n${message}`;
+  });
 });
 
-function listenSetupProcess() {
-  listen("setup-process", (event) => {
-    const message = event.payload;
-    setupProcess.value += `\n${message}`;
-
-    if (message === "All done.") {
-      setupCompleted.value = true;
-    }
-  });
-}
+onUnmounted(() => {
+  unlisten?.();
+});
 
 function routeToProjectView() {
   router.push("/project");
