@@ -505,6 +505,7 @@ dependencies = [
  "anyhow",
  "bincode",
  "libc",
+ "log",
  "rust-embed",
  "serde",
  "serde_json",

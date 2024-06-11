@@ -6,6 +6,7 @@ mod payload;
 mod proot;
 mod res;
 
+use log::error;
 use tauri::{async_runtime, AppHandle, Manager};
 
 use payload::Payload;
@@ -15,16 +16,18 @@ use res::Resources;
 #[tauri::command]
 async fn init_resources(app: AppHandle) {
     app.emit("setup-process", Payload::new("Checking resources".into()))
-        .unwrap();
-    Resources::auto_update().await.unwrap();
+        .unwrap_or_else(|e| error!("{e:?}"));
+    Resources::auto_update()
+        .await
+        .unwrap_or_else(|e| error!("{e:?}"));
     app.emit(
         "setup-process",
         Payload::new("Checking proot rootfs".into()),
     )
-    .unwrap();
-    setup_rootfs().unwrap();
+    .unwrap_or_else(|e| error!("{e:?}"));
+    setup_rootfs().unwrap_or_else(|e| error!("{e:?}"));
     app.emit("setup-process", Payload::new("All done.".into()))
-        .unwrap();
+        .unwrap_or_else(|e| error!("{e:?}"));
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
