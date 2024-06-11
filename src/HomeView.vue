@@ -12,7 +12,7 @@ interface Payload {
 let unlisten: Promise<UnlistenFn> | null = null;
 
 const router = useRouter();
-const setupProcess = ref("Waiting until setup process complete...");
+const setupProcess = ref(["Waiting until setup process complete..."]);
 const setupCompleted = ref(false);
 
 const init_resources = async () => {
@@ -24,10 +24,14 @@ const init_resources = async () => {
 onMounted(async () => {
   unlisten = listen<Payload>("setup-process", (event) => {
     const { message } = event.payload;
-    setupProcess.value += `\n${message}`;
+    if (setupProcess.value.length >= 3) {
+      setupProcess.value.shift();
+    }
+    setupProcess.value.push(message);
   });
 
   init_resources();
+  await unlisten;
 });
 
 onUnmounted(() => {
@@ -76,7 +80,13 @@ function routeToProjectView() {
       </v-list-item>
     </v-list>
 
-    <h5 class="setupProcess">{{ setupProcess }}</h5>
+    <div
+      v-for="(message, index) in setupProcess"
+      :key="index"
+      class="setupProcess"
+    >
+      {{ message }}
+    </div>
   </div>
 </template>
 
@@ -89,20 +99,25 @@ function routeToProjectView() {
 .titleIcon {
   margin: auto;
   font-size: 130px;
+  padding-top: 25px;
 }
 
 .title {
   margin: auto;
   font-size: 30px;
-  padding-bottom: 25px;
+  padding-top: 25px;
 }
 
 .menu {
   margin: auto;
+  padding-top: 25px;
   width: 80%;
 }
 
 .setupProcess {
   margin: auto;
+  color: #00000057;
+  font-size: small;
+  white-space: pre-wrap;
 }
 </style>
