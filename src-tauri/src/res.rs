@@ -98,9 +98,7 @@ impl Resources {
         }
 
         if let Some(dir) = path.parent() {
-            if !dir.exists() {
-                fs::create_dir_all(dir)?;
-            }
+            let _ = fs::create_dir_all(dir);
         }
 
         let file = File::create(path)?;

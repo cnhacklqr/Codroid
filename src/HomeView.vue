@@ -9,7 +9,7 @@ interface Payload {
   message: string;
 }
 
-let unlisten: UnlistenFn | null = null;
+let unlisten: Promise<UnlistenFn> | null = null;
 
 const router = useRouter();
 const setupProcess = ref("Waiting until setup process complete...");
@@ -21,17 +21,17 @@ const init_resources = async () => {
   });
 };
 
-init_resources();
-
 onMounted(async () => {
-  unlisten = await listen<Payload>("setup-process", (event) => {
+  unlisten = listen<Payload>("setup-process", (event) => {
     const { message } = event.payload;
     setupProcess.value += `\n${message}`;
   });
+
+  init_resources();
 });
 
 onUnmounted(() => {
-  unlisten?.();
+  unlisten?.then((unlisten) => unlisten());
 });
 
 function routeToProjectView() {
