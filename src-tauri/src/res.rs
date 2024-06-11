@@ -1,14 +1,15 @@
 use std::{
+    env,
     fs::{self, File},
     io::{Read, Write},
-    path::{Path, PathBuf},
+    path::Path,
 };
 
 use anyhow::{anyhow, Result};
 use rust_embed::{Embed, EmbeddedFile};
 use tokio::task::JoinSet;
 
-use crate::android::private_android_data;
+use crate::path_resolver;
 
 #[derive(Embed)]
 #[folder = "res"]
@@ -19,13 +20,8 @@ use crate::android::private_android_data;
 pub struct Resources;
 
 impl Resources {
-    pub fn resources_dir() -> PathBuf {
-        let data_dir = private_android_data();
-        data_dir.join("resources")
-    }
-
     pub async fn auto_update() -> Result<()> {
-        let resources_dir = Self::resources_dir();
+        let resources_dir = path_resolver::resources_dir();
 
         let _ = fs::create_dir(&resources_dir);
         let mut task_set = JoinSet::new();
@@ -43,9 +39,9 @@ impl Resources {
                 }
             }
 
-                task_set.spawn(async move {
-                    Self::update_file(absolute_path, verification_path, &embed_file)
-                });
+            task_set.spawn(async move {
+                Self::update_file(absolute_path, verification_path, &embed_file)
+            });
         }
 
         while let Some(result) = task_set.join_next().await {

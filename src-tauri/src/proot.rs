@@ -4,10 +4,10 @@ use anyhow::Result;
 use tar::Archive;
 use xz2::read::XzDecoder;
 
-use crate::{android::private_android_data, res::Resources};
+use crate::path_resolver;
 
 pub fn setup_rootfs() -> Result<()> {
-    let linux_root = private_android_data().join("linux_root");
+    let linux_root = path_resolver::data_dir().join("linux_root");
 
     if linux_root
         .read_dir()
@@ -18,7 +18,7 @@ pub fn setup_rootfs() -> Result<()> {
     {
         let _ = fs::create_dir(&linux_root);
 
-        let rootfs_path = Resources::resources_dir()
+        let rootfs_path = path_resolver::resources_dir()
             .join("rootfs")
             .join("archlinux-aarch64-rootfs.tar.xz");
 

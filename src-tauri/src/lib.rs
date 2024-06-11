@@ -2,13 +2,13 @@
 #![warn(clippy::nursery)]
 #![allow(clippy::missing_panics_doc)]
 mod android;
+mod path_resolver;
 mod payload;
 mod proot;
 mod res;
 
-use android::private_android_cache;
 use log::error;
-use tauri::{async_runtime, AppHandle, Manager};
+use tauri::{AppHandle, Manager};
 use tauri_plugin_log::{Target, TargetKind};
 
 use payload::Payload;
@@ -34,13 +34,14 @@ async fn init_resources(app: AppHandle) {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    path_resolver::init();
     tauri::Builder::default()
         .plugin(
             tauri_plugin_log::Builder::new()
                 .targets([
                     Target::new(TargetKind::Stdout),
                     Target::new(TargetKind::Folder {
-                        path: private_android_cache(),
+                        path: path_resolver::cache_dir(),
                         file_name: None,
                     }),
                 ])

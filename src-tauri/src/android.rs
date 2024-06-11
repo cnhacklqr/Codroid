@@ -13,10 +13,6 @@ pub fn private_android_data() -> PathBuf {
     Path::new("/data/data").join(package)
 }
 
-pub fn private_android_cache() -> PathBuf {
-    private_android_data().join("cache")
-}
-
 fn get_package_name(pid: i32) -> Result<String> {
     let cmdline = Path::new("/proc").join(pid.to_string()).join("cmdline");
     let cmdline = fs::read_to_string(cmdline)?;
