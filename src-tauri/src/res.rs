@@ -1,5 +1,4 @@
 use std::{
-    env,
     fs::{self, File},
     io::{Read, Write},
     path::Path,
