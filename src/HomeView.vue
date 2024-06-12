@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
-import { VList, VListItem, VIcon } from "vuetify/components";
 import { listen, UnlistenFn } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/core";
 
@@ -38,10 +37,6 @@ onUnmounted(() => {
   unlisten?.then((unlisten) => unlisten());
 });
 
-function routeToProjectView() {
-  router.push("/project");
-}
-
 function routeToSettingsView() {
   router.push("/settings");
 }
@@ -57,16 +52,34 @@ function routeToAboutView() {
     <h1 class="title">Codroid</h1>
 
     <v-list class="menu">
-      <v-list-item
-        title="Open Project"
-        subtitle="...and start coding"
-        prepend-icon="mdi-code-braces"
-        append-icon="mdi-menu-right"
-        rounded="xl"
-        :disabled="!setupCompleted"
-        @click="routeToProjectView"
-      >
-      </v-list-item>
+      <v-list-group>
+        <template #activator="{ props }">
+          <v-list-item
+            v-bind="props"
+            title="Project"
+            prepend-icon="mdi-code-braces"
+            append-icon="mdi-menu-right"
+            rounded="xl"
+          >
+          </v-list-item>
+        </template>
+
+        <v-list-item
+          title="Create new project"
+          prepend-icon="mdi-creation"
+          rounded="xl"
+          :disabled="!setupCompleted"
+        >
+        </v-list-item>
+
+        <v-list-item
+          title="Open Project"
+          prepend-icon="mdi-folder"
+          rounded="xl"
+          :disabled="!setupCompleted"
+        >
+        </v-list-item>
+      </v-list-group>
 
       <v-list-item
         title="Settings"
@@ -109,13 +122,13 @@ function routeToAboutView() {
 .titleIcon {
   margin: auto;
   font-size: 130px;
-  padding-top: 25px;
+  padding-top: 100px;
 }
 
 .title {
   margin: auto;
   font-size: 30px;
-  padding-top: 25px;
+  padding-top: 75px;
 }
 
 .menu {
