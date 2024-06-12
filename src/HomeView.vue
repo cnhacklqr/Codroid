@@ -1,26 +1,23 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, inject } from "vue";
 import { useRouter } from "vue-router";
 import { listen, UnlistenFn } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/core";
 
-interface Payload {
-  message: string;
-}
-
-let unlisten: Promise<UnlistenFn> | null = null;
+const appBarTitle = inject("appBarTitle") as (arg: string) => void;
+appBarTitle("Home");
 
 const router = useRouter();
 const setupProcess = ref(["Waiting until setup process complete..."]);
 const setupCompleted = ref(false);
 
-const init_resources = async () => {
-  await invoke("init_resources").then(() => {
-    setupCompleted.value = true;
-  });
-};
+let unlisten: Promise<UnlistenFn> | null = null;
 
 onMounted(async () => {
+  interface Payload {
+    message: string;
+  }
+
   unlisten = listen<Payload>("setup-process", (event) => {
     const { message } = event.payload;
     if (setupProcess.value.length >= 3) {
@@ -29,8 +26,9 @@ onMounted(async () => {
     setupProcess.value.push(message);
   });
 
-  init_resources();
-  await unlisten;
+  invoke("init_resources").then(() => {
+    setupCompleted.value = true;
+  });
 });
 
 onUnmounted(() => {

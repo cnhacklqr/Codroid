@@ -2,10 +2,8 @@
 import { provide, ref } from "vue";
 
 const appBarTitle = ref("");
-const appBarSubTitle = ref("");
 
-provide("appBarTitle", appBarTitle.value);
-provide("appBarSubTitle", appBarSubTitle.value);
+provide("appBarTitle", (newTitle: string) => (appBarTitle.value = newTitle));
 </script>
 
 <template>
@@ -14,6 +12,8 @@ provide("appBarSubTitle", appBarSubTitle.value);
       <template #prepend>
         <v-app-bar-nav-icon></v-app-bar-nav-icon>
       </template>
+
+      <v-app-bar-title>{{ appBarTitle }}</v-app-bar-title>
     </v-app-bar>
 
     <v-main
