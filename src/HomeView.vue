@@ -41,6 +41,14 @@ onUnmounted(() => {
 function routeToProjectView() {
   router.push("/project");
 }
+
+function routeToSettingsView() {
+  router.push("/settings");
+}
+
+function routeToAboutView() {
+  router.push("/about");
+}
 </script>
 
 <template>
@@ -67,6 +75,7 @@ function routeToProjectView() {
         append-icon="mdi-menu-right"
         rounded="xl"
         :disabled="!setupCompleted"
+        @click="routeToSettingsView"
       >
       </v-list-item>
 
@@ -76,6 +85,7 @@ function routeToProjectView() {
         prepend-icon="mdi-information-outline"
         append-icon="mdi-menu-right"
         rounded="xl"
+        @click="routeToAboutView"
       >
       </v-list-item>
     </v-list>
