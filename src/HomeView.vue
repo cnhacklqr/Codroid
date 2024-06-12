@@ -66,7 +66,7 @@ const routeToAboutView = () => {
             v-bind="props"
             title="Project"
             prepend-icon="mdi-code-braces"
-            append-icon="mdi-menu-right"
+            append-icon="mdi-menu-down"
             rounded="xl"
           >
           </v-list-item>
@@ -75,6 +75,7 @@ const routeToAboutView = () => {
         <v-list-item
           title="Create new project"
           prepend-icon="mdi-creation"
+          append-icon="mdi-menu-right"
           rounded="xl"
           :disabled="!setupCompleted"
           @click="routeToCreateProjectView"
@@ -84,6 +85,7 @@ const routeToAboutView = () => {
         <v-list-item
           title="Open Project"
           prepend-icon="mdi-folder"
+          append-icon="mdi-menu-right"
           rounded="xl"
           :disabled="!setupCompleted"
           @click="routeToOpenProjectView"
