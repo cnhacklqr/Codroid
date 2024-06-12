@@ -37,13 +37,21 @@ onUnmounted(() => {
   unlisten?.then((unlisten) => unlisten());
 });
 
-function routeToSettingsView() {
-  router.push("/settings");
-}
+const routeToCreateProjectView = () => {
+  router.push("createProject");
+};
 
-function routeToAboutView() {
-  router.push("/about");
-}
+const routeToOpenProjectView = () => {
+  router.push("openProjectView");
+};
+
+const routeToSettingsView = () => {
+  router.push("settings");
+};
+
+const routeToAboutView = () => {
+  router.push("about");
+};
 </script>
 
 <template>
@@ -69,6 +77,7 @@ function routeToAboutView() {
           prepend-icon="mdi-creation"
           rounded="xl"
           :disabled="!setupCompleted"
+          @click="routeToCreateProjectView"
         >
         </v-list-item>
 
@@ -77,6 +86,7 @@ function routeToAboutView() {
           prepend-icon="mdi-folder"
           rounded="xl"
           :disabled="!setupCompleted"
+          @click="routeToOpenProjectView"
         >
         </v-list-item>
       </v-list-group>
