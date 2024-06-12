@@ -4,7 +4,7 @@ import App from "./App.vue";
 import HomeView from "./HomeView.vue";
 import ProjectView from "./ProjectView.vue";
 import SettingsView from "./SettingsView.vue";
-import AboutView from "./HomeView.vue";
+import AboutView from "./AboutView.vue";
 import CreateProjectView from "./CreateProjectView.vue";
 import OpenProjectView from "./OpenProjectView.vue";
 import "vuetify/styles";
