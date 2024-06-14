@@ -135,7 +135,7 @@ const stepperActionDisabled = computed(() => {
           ><v-autocomplete
             v-model:model-value="projectTemplateInput"
             class="textFeild"
-            auto-select-first="true"
+            auto-select-first
             label="Template"
             :items="templateAutocomplete"
           ></v-autocomplete
