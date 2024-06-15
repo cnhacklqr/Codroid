@@ -1,14 +1,11 @@
 use std::{
     fs::{self, File},
     io::{Read, Write},
-    path::Path,
+    path::{Path, PathBuf},
 };
 
 use anyhow::{anyhow, Result};
 use rust_embed::{Embed, EmbeddedFile};
-use tokio::task::JoinSet;
-
-use crate::path_resolver;
 
 #[derive(Embed)]
 #[folder = "res"]
@@ -19,61 +16,35 @@ use crate::path_resolver;
 pub struct Resources;
 
 impl Resources {
-    pub async fn auto_update() -> Result<()> {
-        let resources_dir = path_resolver::resources_dir();
-
-        let _ = fs::create_dir(&resources_dir);
-        let mut task_set = JoinSet::new();
-        for relative_path in Self::iter() {
-            let relative_path = relative_path.as_ref();
-            let absolute_path = resources_dir.join(relative_path);
-            let verification_path = resources_dir.join(format!("{relative_path}_sha256_hash"));
-            let embed_file = Self::get(relative_path).unwrap();
-
-            if absolute_path.exists() && verification_path.exists() {
-                if let Ok(mut verification_file) = File::open(&verification_path) {
-                    if Self::verify(&embed_file, &mut verification_file) {
-                        continue; // skip this file since it's updated
-                    }
-                }
-            }
-
-            task_set.spawn(async move {
-                Self::update_file(absolute_path, verification_path, &embed_file)
-            });
-        }
-
-        while let Some(result) = task_set.join_next().await {
-            result??;
-        }
-
-        Ok(())
+    // 验证内嵌资源是否和本地资源相同
+    pub fn verify<P: AsRef<Path>>(emed: &EmbeddedFile, absolute_path: P) -> Result<bool> {
+        let mut verification_file = File::open(absolute_path.as_ref())?;
+        Ok(
+            Self::read_verification_file(&mut verification_file).map_or(false, |verification| {
+                emed.metadata.sha256_hash() == verification
+            }),
+        )
     }
 
-    pub fn verify(emed: &EmbeddedFile, verification_file: &mut File) -> bool {
-        Self::read_verification_file(verification_file).map_or(false, |verification| {
-            emed.metadata.sha256_hash() == verification
-        })
-    }
-
-    fn update_file<P: AsRef<Path>>(
-        absolute_path: P,
-        verification_path: P,
-        embed_file: &EmbeddedFile,
-    ) -> Result<()> {
+    // 更新本地资源和验证文件
+    fn update_file<P: AsRef<Path>>(absolute_path: P, embed_file: &EmbeddedFile) -> Result<()> {
         let absolute_path = absolute_path.as_ref();
-        let verification_path = verification_path.as_ref();
+        let verification_path = Self::verification_path(absolute_path);
 
         // update file
         let _ = fs::remove_file(absolute_path);
         let mut resource_file = Self::create_file_all(absolute_path)?;
         resource_file.write_all(embed_file.data.as_ref())?;
 
-        let _ = fs::remove_file(verification_path);
-        let mut verification_file = File::create(verification_path)?;
+        let _ = fs::remove_file(&verification_path);
+        let mut verification_file = File::create(&verification_path)?;
         verification_file.write_all(&embed_file.metadata.sha256_hash())?;
 
         Ok(())
+    }
+
+    fn verification_path<P: AsRef<Path>>(absolute_path: P) -> PathBuf {
+        Path::new(&format!("{:?}_sha256_hash", absolute_path.as_ref())).to_path_buf()
     }
 
     fn read_verification_file(verification_file: &mut File) -> Result<[u8; 32]> {
