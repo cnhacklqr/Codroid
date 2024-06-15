@@ -3,30 +3,61 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use crate::android::private_android_data;
+use symlink::symlink_dir;
+use tauri::AppHandle;
+use tauri_plugin_android_utils::AndroidUtilsExt;
 
-pub fn init() {
-    let data_dir = data_dir();
-    let _ = fs::create_dir(&data_dir);
-    let _ = fs::create_dir(data_dir.join("resources"));
-    let _ = fs::create_dir(data_dir.join("cache"));
+pub struct PathResolver {
+    app: AppHandle,
 }
 
-pub fn data_dir() -> PathBuf {
-    if cfg!(target_os = "android") {
-        private_android_data()
-    } else if cfg!(target_os = "linux") {
-        let home = env::var("HOME").unwrap();
-        Path::new(&home).join(".codroid")
-    } else {
-        panic!("Unsupported platform!");
+impl PathResolver {
+    pub fn new(app: AppHandle) -> Self {
+        Self { app }
     }
-}
 
-pub fn cache_dir() -> PathBuf {
-    data_dir().join("cache")
-}
+    pub fn setup(&self) {
+        let _ = fs::create_dir(self.codroid_home());
+        let _ = fs::create_dir(self.cache_dir());
 
-pub fn resources_dir() -> PathBuf {
-    data_dir().join("resources")
+        let bin_dir = self.bin_dir();
+        if !bin_dir.exists() {
+            if cfg!(target_os = "android") {
+                let native_lib_dir = self.app.android_utils().native_lib_directory().unwrap();
+                symlink_dir(native_lib_dir, bin_dir); // api28后只有nativelib文件夹可以有可执行权限
+            } else {
+                let _ = fs::create_dir(bin_dir);
+            }
+        }
+    }
+
+    pub fn codroid_home(&self) -> PathBuf {
+        if cfg!(target_os = "android") {
+            self.app
+                .android_utils()
+                .private_directory()
+                .unwrap()
+                .join(".codroid")
+        } else if cfg!(target_os = "linux") {
+            let home = env::var("HOME").unwrap();
+            Path::new(&home).join(".codroid")
+        } else {
+            panic!("Unsupported platform!");
+        }
+    }
+
+    pub fn cache_dir(&self) -> PathBuf {
+        if cfg!(target_os = "android") {
+            self.app.android_utils().cache_directory().unwrap()
+        } else if cfg!(target_os = "linux") {
+            let home = env::var("HOME").unwrap();
+            Path::new(&home).join(".cache").join("codroid")
+        } else {
+            panic!("Unsupported platform!");
+        }
+    }
+
+    pub fn bin_dir(&self) -> PathBuf {
+        self.codroid_home().join("bin")
+    }
 }
