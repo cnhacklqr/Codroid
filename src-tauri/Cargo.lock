@@ -506,6 +506,7 @@ dependencies = [
  "tar",
  "tauri",
  "tauri-build",
+ "tauri-plugin-android-utils",
  "tauri-plugin-log",
  "tauri-plugin-process",
  "tauri-plugin-shell",
@@ -3756,6 +3757,18 @@ dependencies = [
  "tauri-utils",
  "toml 0.8.2",
  "walkdir",
+]
+
+[[package]]
+name = "tauri-plugin-android-utils"
+version = "0.0.1"
+source = "git+https://github.com/shadow3aaa/tauri-plugin-android-utils#0ae09a1b4f50ae74c7a5d20f347d0768cd8b175d"
+dependencies = [
+ "serde",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin",
+ "thiserror",
 ]
 
 [[package]]
