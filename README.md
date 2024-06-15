@@ -1,6 +1,6 @@
 # Codroid
 
-**WIP** Rust ide on android(and linux).
+**WIP** Rust IDE on android(and linux).
 
 ## Todo List
 
@@ -29,7 +29,7 @@ pnpm tauri android build -t aarch64
 pnpm tauri build
 ```
 
-## Debug
+## Run Development Build
 
 ```shell
 pnpm tauri dev
