@@ -21,39 +21,26 @@ const routeToHomeView = () => {
 
 <template>
   <v-app class="rounded rounded-md">
-    <v-app-bar prominent>
-      <v-app-bar-nav-icon
-        @click.stop="showSidebar = !showSidebar"
-      ></v-app-bar-nav-icon>
+    <v-app-bar :elevation="0">
+      <v-app-bar-nav-icon @click.stop="showSidebar = !showSidebar"></v-app-bar-nav-icon>
 
       <v-app-bar-title>{{ appBarTitle }}</v-app-bar-title>
     </v-app-bar>
 
     <v-navigation-drawer v-model="showSidebar">
       <v-list>
-        <v-list-item
-          title="Home"
-          prepend-icon="mdi-home"
-          rounded="xl"
-          @click="routeToHomeView"
-        >
+        <v-list-item title="Home" prepend-icon="mdi-home" rounded="xl" @click="routeToHomeView">
         </v-list-item>
 
-        <v-list-item
-          title="Exit"
-          prepend-icon="mdi-exit-to-app"
-          rounded="xl"
-          @click="exitApp"
-        >
+        <v-list-item title="Exit" prepend-icon="mdi-exit-to-app" rounded="xl" @click="exitApp">
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
-    <v-main
-      ><router-view v-slot="{ Component }">
+    <v-main><router-view v-slot="{ Component }">
         <transition name="fade">
           <component :is="Component" />
-        </transition> </router-view
-    ></v-main>
+        </transition>
+      </router-view></v-main>
   </v-app>
 </template>
