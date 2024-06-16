@@ -24,7 +24,7 @@ impl PathResolver {
         if !bin_dir.exists() {
             if cfg!(target_os = "android") {
                 let native_lib_dir = self.app.android_utils().native_lib_directory().unwrap();
-                symlink_dir(native_lib_dir, bin_dir); // api28后只有nativelib文件夹可以有可执行权限
+                symlink_dir(native_lib_dir, bin_dir).unwrap(); // api28后只有nativelib文件夹可以有可执行权限
             } else {
                 let _ = fs::create_dir(bin_dir);
             }
