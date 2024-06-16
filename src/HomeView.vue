@@ -12,6 +12,7 @@ const setupProcess = ref(["Waiting until setup process complete..."]);
 const setupCompleted = ref(false);
 
 let unlisten: Promise<UnlistenFn> | null = null;
+let setupProcessValue = 0;
 
 onMounted(async () => {
   interface Payload {
@@ -24,6 +25,7 @@ onMounted(async () => {
       setupProcess.value.shift();
     }
     setupProcess.value.push(message);
+    setupProcessValue += 100 / 3;
   });
 
   invoke("init_resources").then(() => {
@@ -63,8 +65,9 @@ const routeToAboutView = () => {
           <v-list-item
             v-bind="props"
             title="Project"
+            subtitle="Manage Projects"
             prepend-icon="mdi-code-braces"
-            rounded="xl"
+            rounded="pill"
           >
           </v-list-item>
         </template>
@@ -72,7 +75,7 @@ const routeToAboutView = () => {
         <v-list-item
           title="Create new project"
           prepend-icon="mdi-creation"
-          rounded="xl"
+          rounded="pill"
           :disabled="!setupCompleted"
           @click="routeToCreateProjectView"
         >
@@ -81,7 +84,7 @@ const routeToAboutView = () => {
         <v-list-item
           title="Open Project"
           prepend-icon="mdi-folder"
-          rounded="xl"
+          rounded="pill"
           :disabled="!setupCompleted"
           @click="routeToOpenProjectView"
         >
@@ -90,9 +93,9 @@ const routeToAboutView = () => {
 
       <v-list-item
         title="Settings"
-        subtitle="configure Codroid"
+        subtitle="Configure Codroid"
         prepend-icon="mdi-cogs"
-        rounded="xl"
+        rounded="pill"
         :disabled="!setupCompleted"
         @click="routeToSettingsView"
       >
@@ -100,21 +103,32 @@ const routeToAboutView = () => {
 
       <v-list-item
         title="About"
-        subtitle="author, licenses, etc."
+        subtitle="Author, licenses, and etc."
         prepend-icon="mdi-information-outline"
-        rounded="xl"
+        rounded="pill"
         @click="routeToAboutView"
       >
       </v-list-item>
     </v-list>
 
-    <div
-      v-for="(message, index) in setupProcess"
-      :key="index"
-      class="setupProcess"
-    >
-      {{ message }}
-    </div>
+    <v-expansion-panels style="width: 75%; margin: auto">
+      <v-expansion-panel title="Setup Process Details" :elevation="0">
+        <v-expansion-panel-text>
+          <v-progress-linear
+            v-model="setupProcessValue"
+            stream
+            color="black"
+          ></v-progress-linear>
+          <div
+            v-for="(message, index) in setupProcess"
+            :key="index"
+            class="setupProcess"
+          >
+            {{ message }}
+          </div>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </div>
 </template>
 
@@ -147,5 +161,6 @@ const routeToAboutView = () => {
   color: #00000057;
   font-size: small;
   white-space: pre-wrap;
+  text-align: center;
 }
 </style>
