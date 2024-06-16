@@ -24,6 +24,7 @@ impl PathResolver {
         if !bin_dir.exists() {
             if cfg!(target_os = "android") {
                 let native_lib_dir = self.app.android_utils().native_lib_directory().unwrap();
+                let _ = fs::remove_file(&bin_dir); // 修复: 不是第一次安装时下一行会panic(因为native_lib_dir安装时会变动?未求证)
                 symlink_dir(native_lib_dir, bin_dir).unwrap(); // api28后只有nativelib文件夹可以有可执行权限
             } else {
                 let _ = fs::create_dir(bin_dir);
