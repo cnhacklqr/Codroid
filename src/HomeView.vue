@@ -109,20 +109,15 @@ const routeToAboutView = () => {
       </v-list-item>
     </v-list>
 
-    <v-expansion-panels style="width: 75%; margin: auto">
-      <v-expansion-panel title="Setup Process Details" :elevation="0">
-        <v-expansion-panel-text>
-          <v-progress-linear
-            v-model="setupProgressPercent"
-            stream
-            color="black"
-          ></v-progress-linear>
-          <div class="setupProcess text-grey-lighten-1">
-            {{ setupProcessText }}
-          </div>
-        </v-expansion-panel-text>
-      </v-expansion-panel>
-    </v-expansion-panels>
+    <v-progress-linear
+      v-model="setupProgressPercent"
+      stream
+      class="setupProcessContainer"
+      color="grey-darken-1"
+    ></v-progress-linear>
+    <div class="setupProcessText text-grey-lighten-1">
+      {{ setupProcessText }}
+    </div>
   </div>
 </template>
 
@@ -150,7 +145,13 @@ const routeToAboutView = () => {
   width: 80%;
 }
 
-.setupProcess {
+.setupProcessContainer {
+  margin: auto;
+  padding-top: 25px;
+  width: 80%;
+}
+
+.setupProcessText {
   margin: auto;
   font-size: small;
   white-space: pre-wrap;
