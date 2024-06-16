@@ -27,7 +27,7 @@ impl Resources {
     }
 
     // 更新本地资源和验证文件
-    fn update_file<P: AsRef<Path>>(absolute_path: P, embed_file: &EmbeddedFile) -> Result<()> {
+    pub fn update_file<P: AsRef<Path>>(absolute_path: P, embed_file: &EmbeddedFile) -> Result<()> {
         let absolute_path = absolute_path.as_ref();
         let verification_path = Self::verification_path(absolute_path);
 
