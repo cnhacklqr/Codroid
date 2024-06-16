@@ -117,7 +117,7 @@ const routeToAboutView = () => {
             stream
             color="black"
           ></v-progress-linear>
-          <div class="setupProcess">
+          <div class="setupProcess text-grey-lighten-1">
             {{ setupProcessText }}
           </div>
         </v-expansion-panel-text>
@@ -152,7 +152,6 @@ const routeToAboutView = () => {
 
 .setupProcess {
   margin: auto;
-  color: #00000057;
   font-size: small;
   white-space: pre-wrap;
   text-align: center;
