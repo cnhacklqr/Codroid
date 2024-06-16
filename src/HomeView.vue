@@ -17,7 +17,10 @@ const setupProgressPercent = computed(() => {
   if (setupProcessStepMax.value === null) {
     return 0;
   } else {
-    return (setupProcessStep.value / setupProcessStepMax.value!) * 100;
+    return (
+      (setupProcessStep.value / setupProcessStepMax.value!) *
+      100
+    ).toFixed(2);
   }
 });
 const showSetupProgess = computed(
