@@ -8,7 +8,7 @@ const appBarTitle = inject("appBarTitle") as (arg: string) => void;
 appBarTitle("Home");
 
 const router = useRouter();
-const setupProcess = ref(["Waiting until setup process complete..."]);
+const setupProcessText = ref("Waiting until setup process complete...");
 const setupProgressPercent = ref(0);
 const setupCompleted = ref(false);
 
@@ -21,10 +21,8 @@ onMounted(async () => {
 
   unlisten = listen<Payload>("setup-process", (event) => {
     const { message } = event.payload;
-    if (setupProcess.value.length >= 3) {
-      setupProcess.value.shift();
-    }
-    setupProcess.value.push(message);
+
+    setupProcessText.value = message;
     setupProgressPercent.value += 100 / 3;
   });
 
@@ -119,12 +117,8 @@ const routeToAboutView = () => {
             stream
             color="black"
           ></v-progress-linear>
-          <div
-            v-for="(message, index) in setupProcess"
-            :key="index"
-            class="setupProcess"
-          >
-            {{ message }}
+          <div class="setupProcess">
+            {{ setupProcessText }}
           </div>
         </v-expansion-panel-text>
       </v-expansion-panel>
