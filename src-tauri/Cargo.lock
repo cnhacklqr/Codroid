@@ -3770,7 +3770,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-android-utils"
 version = "0.0.1"
-source = "git+https://github.com/shadow3aaa/tauri-plugin-android-utils#999c593c1495c5059cac5b030a7688694c1bc4f4"
+source = "git+https://github.com/shadow3aaa/tauri-plugin-android-utils#fcd402389946e42cdb4407e6d9212c3b3d6eca1f"
 dependencies = [
  "serde",
  "tauri",
