@@ -169,7 +169,6 @@ const stepperActionDisabled = computed(() => {
       @click:next="next"
       @click:prev="prev"
     >
-      <v-btn>Click me</v-btn>
     </v-stepper-actions>
   </v-stepper>
 </template>
