@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, inject } from "vue";
+import { ref, onMounted, onUnmounted, inject, Ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { listen, UnlistenFn } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/core";
@@ -8,22 +8,35 @@ const appBarTitle = inject("appBarTitle") as (arg: string) => void;
 appBarTitle("Home");
 
 const router = useRouter();
-const setupProcessText = ref("Waiting until setup process complete...");
-const setupProgressPercent = ref(0);
+
+const setupProcessText = ref("");
+const setupProcessStep = ref(0);
+const setupProcessStepMax: Ref<number | null> = ref(null);
+const setupProgressPercent = computed(() => {
+  if (setupProcessStepMax.value === null) {
+    return null;
+  } else {
+    return (setupProcessStep.value / setupProcessStepMax.value!) * 100;
+  }
+});
+const showSetupProgess = computed(() => setupProcessStepMax.value !== null);
 const setupCompleted = ref(false);
 
 let unlisten: Promise<UnlistenFn> | null = null;
 
 onMounted(async () => {
-  interface Payload {
+  interface SetupProcess {
+    currentStep: number;
+    maxStep: number;
     message: string;
   }
 
-  unlisten = listen<Payload>("setup-process", (event) => {
-    const { message } = event.payload;
+  unlisten = listen<SetupProcess>("setup-process", (event) => {
+    const payload = event.payload;
 
-    setupProcessText.value = message;
-    setupProgressPercent.value += 100 / 3;
+    setupProcessStep.value = payload.currentStep;
+    setupProcessStepMax.value = payload.maxStep;
+    setupProcessText.value = payload.message;
   });
 
   invoke("init_resources").then(() => {
@@ -53,7 +66,7 @@ const routeToAboutView = () => {
 </script>
 
 <template>
-  <div class="container">
+  <v-container class="container">
     <v-icon icon="mdi-android-studio" class="titleIcon"></v-icon>
     <h1 class="title">Codroid</h1>
 
@@ -109,16 +122,17 @@ const routeToAboutView = () => {
       </v-list-item>
     </v-list>
 
-    <v-progress-linear
-      v-model="setupProgressPercent"
-      stream
-      class="setupProcessContainer"
-      color="grey-darken-1"
-    ></v-progress-linear>
-    <div class="setupProcessText text-grey-lighten-1">
-      {{ setupProcessText }}
-    </div>
-  </div>
+    <v-sheet v-if="showSetupProgess" class="setupProcessContainer">
+      <v-progress-linear
+        :model-value="setupProgressPercent"
+        stream
+        color="grey-darken-1"
+      ></v-progress-linear>
+      <div class="setupProcessText text-grey-lighten-1">
+        {{ setupProcessText }} {{ setupProgressPercent }}%
+      </div>
+    </v-sheet>
+  </v-container>
 </template>
 
 <style scoped>
@@ -148,7 +162,6 @@ const routeToAboutView = () => {
 .setupProcessContainer {
   margin: auto;
   padding-top: 25px;
-  width: 80%;
 }
 
 .setupProcessText {
