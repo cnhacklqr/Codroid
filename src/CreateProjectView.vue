@@ -101,6 +101,10 @@ const stepperActionDisabled = computed(() => {
     return undefined;
   }
 });
+
+const confirmCreation = () => {
+  // todo: 调用后端创建项目，然后导航到项目编辑器
+};
 </script>
 
 <template>
@@ -123,7 +127,7 @@ const stepperActionDisabled = computed(() => {
       <v-divider></v-divider>
 
       <v-stepper-item
-        title="Finish"
+        title="Confirm Project Information"
         value="3"
         :complete="finishedList[3].value"
       ></v-stepper-item>
@@ -154,12 +158,16 @@ const stepperActionDisabled = computed(() => {
 
       <v-stepper-window-item value="3">
         <v-card variant="flat" :color="projectCardColor" hover
-          ><v-card-title>Project {{ projectName }}</v-card-title>
+          ><v-card-title>Project Name: {{ projectName }}</v-card-title>
 
           <v-card-item>
             <RustChip v-if="showRustChip" />
             <EmptyChip v-if="showEmptyChip" />
           </v-card-item>
+
+          <v-card-actions>
+            <v-btn text="Confirm!" @click="confirmCreation"></v-btn>
+          </v-card-actions>
         </v-card>
       </v-stepper-window-item>
     </v-stepper-window>
