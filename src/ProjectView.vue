@@ -8,6 +8,6 @@ import CodeEditor from "./components/CodeEditor.vue";
 
 <style scoped>
 .editor {
-  width: 100％;
+  width: 100%;
 }
 </style>
