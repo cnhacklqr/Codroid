@@ -15,7 +15,7 @@ const setupProcessStep = ref(0);
 const setupProcessStepMax: Ref<number | null> = ref(null);
 const setupProgressPercent = computed(() => {
   if (setupProcessStepMax.value === null) {
-    return null;
+    return 0;
   } else {
     return (setupProcessStep.value / setupProcessStepMax.value!) * 100;
   }
