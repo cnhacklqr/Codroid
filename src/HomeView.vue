@@ -9,10 +9,10 @@ appBarTitle("Home");
 
 const router = useRouter();
 const setupProcess = ref(["Waiting until setup process complete..."]);
+const setupProgressPercent = ref(0);
 const setupCompleted = ref(false);
 
 let unlisten: Promise<UnlistenFn> | null = null;
-let setupProcessValue = 0;
 
 onMounted(async () => {
   interface Payload {
@@ -25,7 +25,7 @@ onMounted(async () => {
       setupProcess.value.shift();
     }
     setupProcess.value.push(message);
-    setupProcessValue += 100 / 3;
+    setupProgressPercent.value += 100 / 3;
   });
 
   invoke("init_resources").then(() => {
@@ -115,7 +115,7 @@ const routeToAboutView = () => {
       <v-expansion-panel title="Setup Process Details" :elevation="0">
         <v-expansion-panel-text>
           <v-progress-linear
-            v-model="setupProcessValue"
+            v-model="setupProgressPercent"
             stream
             color="black"
           ></v-progress-linear>
