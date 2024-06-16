@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted, inject, Ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { listen, UnlistenFn } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/core";
+import Spacer from "./components/layout/Spacer.vue";
 
 const appBarTitle = inject("appBarTitle") as (arg: string) => void;
 appBarTitle("Home");
@@ -19,7 +20,10 @@ const setupProgressPercent = computed(() => {
     return (setupProcessStep.value / setupProcessStepMax.value!) * 100;
   }
 });
-const showSetupProgess = computed(() => setupProcessStepMax.value !== null);
+const showSetupProgess = computed(
+  () => setupProcessStepMax.value !== null && !setupCompleted.value,
+);
+const showSetupProcessText = computed(() => !setupCompleted.value);
 const setupCompleted = ref(false);
 
 let unlisten: Promise<UnlistenFn> | null = null;
@@ -122,16 +126,22 @@ const routeToAboutView = () => {
       </v-list-item>
     </v-list>
 
-    <v-sheet v-if="showSetupProgess" class="setupProcessContainer">
-      <v-progress-linear
-        :model-value="setupProgressPercent"
-        stream
-        color="grey-darken-1"
-      ></v-progress-linear>
-      <div class="setupProcessText text-grey-lighten-1">
-        {{ setupProcessText }} {{ setupProgressPercent }}%
-      </div>
-    </v-sheet>
+    <Spacer />
+
+    <v-progress-linear
+      v-if="showSetupProgess"
+      :model-value="setupProgressPercent"
+      class="setupProcessLinear"
+      stream
+      color="grey-darken-1"
+    ></v-progress-linear>
+
+    <div
+      v-if="showSetupProcessText"
+      class="setupProcessText text-grey-lighten-1"
+    >
+      {{ setupProcessText }} {{ setupProgressPercent }}%
+    </div>
   </v-container>
 </template>
 
@@ -139,6 +149,7 @@ const routeToAboutView = () => {
 .container {
   display: flex;
   flex-direction: column;
+  width: 80%;
 }
 
 .titleIcon {
@@ -156,12 +167,11 @@ const routeToAboutView = () => {
 .menu {
   margin: auto;
   padding-top: 25px;
-  width: 80%;
+  width: 100%;
 }
 
-.setupProcessContainer {
+.setupProcessLinear {
   margin: auto;
-  padding-top: 25px;
 }
 
 .setupProcessText {
