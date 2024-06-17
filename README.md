@@ -12,7 +12,8 @@
 - [ ] Rust Binary/Library Project Support
 - [ ] Tauri Project Support
 - [x] Project Creater(fronted)
-- [ ] Project Creater(backend)
+- [ ] Project List(frontend)
+- [ ] Project Manager(backend)
 - [ ] Usable On Android
 - [ ] Usable On Linux
 
