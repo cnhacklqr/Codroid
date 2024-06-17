@@ -46,6 +46,9 @@ library.add(fas);
 library.add(far);
 library.add(fab);
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(window as any).router = router;
+
 createApp(App)
   .use(router)
   .use(vuetify)
