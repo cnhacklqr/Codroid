@@ -30,6 +30,18 @@ impl PathResolver {
                 let _ = fs::create_dir(bin_dir);
             }
         }
+
+        #[cfg(target_os = "android")]
+        {
+            let project_dir = self.project_dir();
+            if !project_dir.exists() {
+                let _ = fs::remove_file(&project_dir);
+                let proot_home = self.proot_home_dir();
+                let proot_project_dir = proot_home.join("projects");
+                let _ = fs::create_dir(&proot_project_dir);
+                symlink_dir(proot_project_dir, project_dir).unwrap();
+            }
+        }
     }
 
     pub fn codroid_home(&self) -> PathBuf {
@@ -66,5 +78,19 @@ impl PathResolver {
 
     pub fn bin_dir(&self) -> PathBuf {
         self.codroid_home().join("bin")
+    }
+
+    pub fn project_dir(&self) -> PathBuf {
+        self.codroid_home().join("projects")
+    }
+
+    #[cfg(target_os = "android")]
+    pub fn proot_root_dir(&self) -> PathBuf {
+        self.codroid_home().join("proot_root")
+    }
+
+    #[cfg(target_os = "android")]
+    pub fn proot_home_dir(&self) -> PathBuf {
+        self.proot_root_dir().join("root")
     }
 }

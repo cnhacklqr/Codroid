@@ -7,7 +7,7 @@ use xz2::read::XzDecoder;
 use crate::{path_resolver::PathResolver, res::Resources};
 
 pub fn setup_rootfs(path_resolver: &PathResolver) -> Result<()> {
-    let proot_root = path_resolver.codroid_home().join("proot_root");
+    let proot_root = path_resolver.proot_root_dir();
 
     if proot_root
         .read_dir()
