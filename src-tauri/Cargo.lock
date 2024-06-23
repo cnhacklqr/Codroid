@@ -501,6 +501,7 @@ dependencies = [
  "libc",
  "log",
  "notify",
+ "parking_lot",
  "rust-embed",
  "serde",
  "serde_json",

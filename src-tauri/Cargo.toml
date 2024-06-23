@@ -35,6 +35,7 @@ tauri-plugin-log = "2.0.0-beta.6"
 log = "0.4.21"
 symlink = "0.1.0"
 notify = "6.1.1"
+parking_lot = "0.12.3"
 
 [profile.release]
 codegen-units = 1
