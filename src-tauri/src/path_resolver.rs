@@ -42,6 +42,9 @@ impl PathResolver {
         } else if cfg!(target_os = "linux") {
             let home = env::var("HOME").unwrap();
             Path::new(&home).join(".codroid")
+        } else if cfg!(target_os = "windows") {
+            let home = env::var("HOMEPATH").unwrap();
+            Path::new(&home).join(".codroid")
         } else {
             panic!("Unsupported platform!");
         }
@@ -52,6 +55,9 @@ impl PathResolver {
             self.app.android_utils().cache_directory().unwrap()
         } else if cfg!(target_os = "linux") {
             let home = env::var("HOME").unwrap();
+            Path::new(&home).join(".cache").join("codroid")
+        } else if cfg!(target_os = "windows") {
+            let home = env::var("HOMEPATH").unwrap();
             Path::new(&home).join(".cache").join("codroid")
         } else {
             panic!("Unsupported platform!");
