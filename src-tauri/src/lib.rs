@@ -2,6 +2,7 @@
 #![warn(clippy::nursery)]
 #![allow(clippy::missing_panics_doc)]
 mod path_resolver;
+#[cfg(target_os = "android")]
 mod proot;
 mod res;
 mod setup_process;
