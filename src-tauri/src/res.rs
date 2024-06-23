@@ -7,8 +7,27 @@ use std::{
 use anyhow::{anyhow, Result};
 use rust_embed::{Embed, EmbeddedFile};
 
+#[cfg(target_os = "android")]
 #[derive(Embed)]
-#[folder = "res"]
+#[folder = "res/android"]
+#[include = "**"]
+#[exclude = "README.md"]
+#[exclude = "sources/*"]
+#[exclude = ".gitattributes"]
+pub struct Resources;
+
+#[cfg(target_os = "windows")]
+#[derive(Embed)]
+#[folder = "res/windows"]
+#[include = "**"]
+#[exclude = "README.md"]
+#[exclude = "sources/*"]
+#[exclude = ".gitattributes"]
+pub struct Resources;
+
+#[cfg(target_os = "linux")]
+#[derive(Embed)]
+#[folder = "res/linux"]
 #[include = "**"]
 #[exclude = "README.md"]
 #[exclude = "sources/*"]
