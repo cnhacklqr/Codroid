@@ -27,10 +27,14 @@ pub struct ProjectManager {
 impl ProjectManager {
     pub fn managed_by(app: &AppHandle) -> Result<()> {
         let data_path = Self::data_path(app.clone());
-        if !data_path.exists() {
+
+        let project_infos = if let Ok(infos) = Self::read_project_data(&data_path) {
+            infos
+        } else {
             Self::init_project_info(&data_path)?;
-        }
-        let project_infos = Arc::new(RwLock::new(Self::read_project_data(&data_path)?));
+            Self::read_project_data(&data_path)?
+        };
+        let project_infos = Arc::new(RwLock::new(project_infos));
 
         let mut watcher = {
             let project_infos = project_infos.clone();

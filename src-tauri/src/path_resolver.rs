@@ -42,6 +42,8 @@ impl PathResolver {
                 symlink_dir(proot_project_dir, project_dir).unwrap();
             }
         }
+        #[cfg(not(target_os = "android"))]
+        let _ = fs::create_dir(self.project_dir());
     }
 
     pub fn codroid_home(&self) -> PathBuf {
