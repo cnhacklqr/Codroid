@@ -1,13 +1,15 @@
+use std::collections::HashMap;
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Serialize, Deserialize, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct ProjectInfos {
-    infos: Vec<ProjectInfo>,
+    pub infos: HashMap<String, ProjectInfo>,
 }
 
 #[derive(Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ProjectInfo {
-    template: String,
+    pub template: String,
 }

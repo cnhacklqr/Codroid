@@ -9,6 +9,7 @@ use std::{
 
 use crate::path_resolver::PathResolver;
 use anyhow::Result;
+use log::error;
 use notify::{recommended_watcher, Event, EventKind, RecommendedWatcher, RecursiveMode, Watcher};
 use parking_lot::RwLock;
 use project_info::ProjectInfos;
@@ -57,6 +58,17 @@ impl ProjectManager {
         };
         let wrapper = Arc::new(RwLock::new(manager));
         app.manage(wrapper);
+
+        Ok(())
+    }
+
+    pub fn update_project_infos<F: FnOnce(&mut ProjectInfos)>(&self, handler: F) -> Result<()> {
+        handler(&mut self.project_infos.write());
+        let toml = toml::to_string(&*self.project_infos.read());
+        match toml {
+            Ok(s) => fs::write(Self::data_path(self.app.clone()), s)?,
+            Err(e) => error!("{e:?}"),
+        }
 
         Ok(())
     }

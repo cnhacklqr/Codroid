@@ -13,7 +13,10 @@ use project_manager::ProjectManager;
 use tauri::Manager;
 use tauri_plugin_log::{Target, TargetKind};
 
-use project_manager::command::{project_manager_init_watcher, project_manager_project_infos};
+use project_manager::command::{
+    project_manager_create_project, project_manager_init_watcher, project_manager_project_infos,
+    project_manager_remove_project,
+};
 use setup_process::init_resources;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -33,7 +36,9 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             init_resources,
             project_manager_project_infos,
-            project_manager_init_watcher
+            project_manager_init_watcher,
+            project_manager_create_project,
+            project_manager_remove_project,
         ])
         .setup(|app| {
             ProjectManager::managed_by(app.app_handle()).unwrap_or_else(|e| error!("{e:?}"));
