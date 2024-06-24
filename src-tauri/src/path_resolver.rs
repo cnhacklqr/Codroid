@@ -12,7 +12,7 @@ pub struct PathResolver {
 }
 
 impl PathResolver {
-    pub fn new(app: AppHandle) -> Self {
+    pub const fn new(app: AppHandle) -> Self {
         Self { app }
     }
 
