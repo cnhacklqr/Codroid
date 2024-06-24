@@ -5,6 +5,7 @@
     "1yib.rust-bundle",
     "esbenp.prettier-vscode",
     "tamasfe.even-better-toml",
-    "knisterpeter.vscode-commitizen"
+    "knisterpeter.vscode-commitizen",
+    "vuetifyjs.vuetify-vscode"
   ]
 }
