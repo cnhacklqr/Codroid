@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, ComputedRef, inject, Ref, ref } from "vue";
-import RustChip from "./components/chips/RustChip.vue";
-import EmptyChip from "./components/chips/EmptyChip.vue";
+import { computed, ComputedRef, inject, ref } from "vue";
+import ProjectCard from "./components/ProjectCard.vue";
+import { Template } from "./type";
 
 const appBarTitle = inject("appBarTitle") as (arg: string) => void;
 appBarTitle("Create New Project");
@@ -10,72 +10,18 @@ appBarTitle("Create New Project");
 const step = ref(0);
 const stepPrefixed = computed(() => step.value + 1);
 
-const next = () => {
-  step.value += 1;
-  if (stepPrefixed.value === 3) {
-    const max = projectCardColors.length - 1;
-    const randFloat = Math.random() * (max + 1);
-    const randIndex = Math.floor(randFloat);
-
-    projectCardColor.value = projectCardColors[randIndex];
-  }
-};
+const next = () => (step.value += 1);
 const prev = () => (step.value -= 1);
 
-// project info
-enum TemplateId {
-  RustBinary,
-  RustLibrary,
-  Empty,
-}
-
-const templates: Record<string, { id: TemplateId; icon: string }> = {
-  ["Rust Binary"]: { id: TemplateId.RustBinary, icon: "fa:fab fa-rust" },
-  ["Rust Library"]: { id: TemplateId.RustLibrary, icon: "fa:fab fa-rust" },
-  ["Empty"]: { id: TemplateId.Empty, icon: "mdi-null" },
-};
-
-const templateAutocomplete: Array<string> = Object.keys(templates);
+const templateAutocomplete = Object.values(Template).filter(
+  (value) => typeof value === "string",
+);
 
 const projectName = ref("");
 const projectTemplateInput = ref("");
 const projectTemplateType = computed(() => {
-  const input = projectTemplateInput.value;
-  return templates[input].id;
+  return Template[projectTemplateInput.value as keyof typeof Template];
 });
-
-// chips
-const showRustChip = computed(() => {
-  switch (projectTemplateType.value) {
-    case TemplateId.RustBinary:
-    case TemplateId.RustLibrary:
-      return true;
-    default:
-      return false;
-  }
-});
-
-const showEmptyChip = computed(() => {
-  switch (projectTemplateType.value) {
-    case TemplateId.Empty:
-      return true;
-    default:
-      return false;
-  }
-});
-
-// project card
-const projectCardColors = [
-  "light-blue-lighten-3",
-  "teal-lighten-3",
-  "indigo-lighten-3",
-  "red-lighten-3",
-  "purple-lighten-3",
-  "light-green-lighten-3",
-  "blue-grey-lighten-3",
-];
-
-const projectCardColor: Ref<string | undefined> = ref(undefined);
 
 // stepper
 const finishedList: Record<number, ComputedRef<boolean>> = {
@@ -83,19 +29,12 @@ const finishedList: Record<number, ComputedRef<boolean>> = {
     templateAutocomplete.includes(projectTemplateInput.value),
   ),
   [2]: computed(() => projectName.value !== ""),
-  [3]: computed(() => true),
+  [3]: computed(() => false),
 };
 
 const stepperActionDisabled = computed(() => {
-  const disableNext =
-    stepPrefixed.value === 3 || !finishedList[stepPrefixed.value].value;
-  const disablePrev = stepPrefixed.value === 1;
-
-  if (disableNext && disablePrev) {
-    return true;
-  } else if (disablePrev) {
-    return "prev";
-  } else if (disableNext) {
+  const disableNext = !finishedList[stepPrefixed.value].value;
+  if (disableNext) {
     return "next";
   } else {
     return undefined;
@@ -157,18 +96,15 @@ const confirmCreation = () => {
       </v-stepper-window-item>
 
       <v-stepper-window-item value="3">
-        <v-card variant="flat" :color="projectCardColor" hover
-          ><v-card-title>Project Name: {{ projectName }}</v-card-title>
+        <v-sheet>
+          <ProjectCard
+            :template="projectTemplateType"
+            :project-name="projectName"
+            class="mb-4"
+          />
 
-          <v-card-item>
-            <RustChip v-if="showRustChip" />
-            <EmptyChip v-if="showEmptyChip" />
-          </v-card-item>
-
-          <v-card-actions>
-            <v-btn text="Confirm!" @click="confirmCreation"></v-btn>
-          </v-card-actions>
-        </v-card>
+          <v-btn color="primary" @click="confirmCreation">CREATE</v-btn>
+        </v-sheet>
       </v-stepper-window-item>
     </v-stepper-window>
 
