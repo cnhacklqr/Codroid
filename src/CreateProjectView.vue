@@ -2,16 +2,25 @@
 import { computed, ComputedRef, inject, ref } from "vue";
 import ProjectCard from "./components/ProjectCard.vue";
 import { Template } from "./type";
+import { useRouter } from "vue-router";
 
 const appBarTitle = inject("appBarTitle") as (arg: string) => void;
 appBarTitle("Create New Project");
+
+const router = useRouter();
 
 // stepper
 const step = ref(0);
 const stepPrefixed = computed(() => step.value + 1);
 
 const next = () => (step.value += 1);
-const prev = () => (step.value -= 1);
+const prev = () => {
+  if (stepPrefixed.value === 1) {
+    router.replace("/");
+  } else {
+    step.value -= 1;
+  }
+};
 
 const templateAutocomplete = Object.values(Template).filter(
   (value) => typeof value === "string",
