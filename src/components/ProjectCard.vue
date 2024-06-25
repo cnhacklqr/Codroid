@@ -39,7 +39,7 @@ const chips = computed(() => {
     ><v-card-title>Project Name: {{ projectName }}</v-card-title>
 
     <v-card-item>
-      <v-chip-group v-for="(chip, index) in chips" :key="index">
+      <v-chip-group v-for="(chip, index) in chips" :key="index" draggable>
         <component :is="chip"></component>
       </v-chip-group>
     </v-card-item>
