@@ -60,7 +60,7 @@ const routeToCreateProjectView = () => {
 };
 
 const routeToOpenProjectView = () => {
-  router.push("openProjectView");
+  router.push("openProject");
 };
 
 const routeToSettingsView = () => {
