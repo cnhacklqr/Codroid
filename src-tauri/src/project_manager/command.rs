@@ -18,7 +18,6 @@ pub fn project_manager_project_infos(state: State<ProjectManagerWarpper>) -> Pro
 
 #[tauri::command]
 pub fn project_manager_create_project(
-    name: String,
     project_info: ProjectInfo,
     state: State<ProjectManagerWarpper>,
 ) {
@@ -27,7 +26,7 @@ pub fn project_manager_create_project(
         .project_infos
         .write()
         .infos
-        .insert(name, project_info);
+        .insert(project_info.name.clone(), project_info);
 }
 
 #[tauri::command]

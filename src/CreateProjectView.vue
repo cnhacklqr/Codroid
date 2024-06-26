@@ -4,6 +4,7 @@ import ProjectCard from "./components/ProjectCard.vue";
 import { Template } from "./type";
 import { useRouter } from "vue-router";
 import { ProjectInfo } from "./type";
+import { invoke } from "@tauri-apps/api/core";
 
 const appBarTitle = inject("appBarTitle") as (arg: string) => void;
 appBarTitle("Create New Project");
@@ -58,6 +59,9 @@ const stepperActionDisabled = computed(() => {
 
 const confirmCreation = () => {
   // todo: 调用后端创建项目，然后导航到项目编辑器
+  invoke("project_manager_create_project", {
+    projectInfo: projectInfo.value,
+  });
 };
 </script>
 
