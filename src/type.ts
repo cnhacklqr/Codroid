@@ -3,3 +3,12 @@ export enum Template {
   RustLibrary,
   Empty,
 }
+
+export interface ProjectInfos {
+  infos: Array<ProjectInfo>;
+}
+
+export interface ProjectInfo {
+  name: string;
+  template: Template;
+}

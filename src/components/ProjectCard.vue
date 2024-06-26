@@ -2,15 +2,14 @@
 import { computed } from "vue";
 import RustChip from "./chips/RustChip.vue";
 import EmptyChip from "./chips/EmptyChip.vue";
-import { Template } from "../type";
+import { ProjectInfo, Template } from "../type";
 
 const props = defineProps<{
-  template: Template;
-  projectName: string;
+  info: ProjectInfo;
 }>();
 
 const color = computed(() => {
-  switch (props.template) {
+  switch (props.info.template) {
     case Template.Empty:
       return "grey-lighten-2";
     case Template.RustBinary:
@@ -22,7 +21,7 @@ const color = computed(() => {
 });
 
 const chips = computed(() => {
-  switch (props.template) {
+  switch (props.info.template) {
     case Template.Empty:
       return [EmptyChip];
     case Template.RustBinary:
@@ -36,7 +35,7 @@ const chips = computed(() => {
 
 <template>
   <v-card variant="flat" :color="color" hover
-    ><v-card-title>Project Name: {{ projectName }}</v-card-title>
+    ><v-card-title>Project Name: {{ info.name }}</v-card-title>
 
     <v-card-item>
       <v-chip-group v-for="(chip, index) in chips" :key="index" draggable>

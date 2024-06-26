@@ -11,5 +11,14 @@ pub struct ProjectInfos {
 #[derive(Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ProjectInfo {
+    pub name: Template,
     pub template: String,
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy)]
+#[serde(rename_all = "camelCase")]
+pub enum Template {
+    RustBinary,
+    RustLibrary,
+    Empty,
 }

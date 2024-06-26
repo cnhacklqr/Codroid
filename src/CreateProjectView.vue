@@ -3,6 +3,7 @@ import { computed, ComputedRef, inject, ref } from "vue";
 import ProjectCard from "./components/ProjectCard.vue";
 import { Template } from "./type";
 import { useRouter } from "vue-router";
+import { ProjectInfo } from "./type";
 
 const appBarTitle = inject("appBarTitle") as (arg: string) => void;
 appBarTitle("Create New Project");
@@ -28,8 +29,13 @@ const templateAutocomplete = Object.values(Template).filter(
 
 const projectName = ref("");
 const projectTemplateInput = ref("");
-const projectTemplateType = computed(() => {
-  return Template[projectTemplateInput.value as keyof typeof Template];
+const projectInfo: ComputedRef<ProjectInfo> = computed(() => {
+  const template =
+    Template[projectTemplateInput.value as keyof typeof Template];
+  return {
+    name: projectName.value,
+    template,
+  };
 });
 
 // stepper
@@ -106,12 +112,7 @@ const confirmCreation = () => {
 
       <v-stepper-window-item value="3">
         <v-sheet>
-          <ProjectCard
-            :template="projectTemplateType"
-            :project-name="projectName"
-            class="mb-4"
-          />
-
+          <ProjectCard :info="projectInfo" class="mb-4" />
           <v-btn color="primary" @click="confirmCreation">CREATE</v-btn>
         </v-sheet>
       </v-stepper-window-item>
