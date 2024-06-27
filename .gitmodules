@@ -1,3 +1,0 @@
-[submodule "src-tauri/sidecar/sources/rust-analyzer"]
-	path = src-tauri/sidecar/sources/rust-analyzer
-	url = https://github.com/rust-lang/rust-analyzer
