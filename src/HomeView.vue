@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, inject, Ref, computed } from "vue";
+import { ref, onMounted, onUnmounted, Ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { listen, UnlistenFn } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/core";
 import Spacer from "./components/layout/Spacer.vue";
+import { useAppGlobal } from "./stores/appGlobal";
 
-const appBarTitle = inject("appBarTitle") as (arg: string) => void;
-appBarTitle("Home");
-
+const appGlobal = useAppGlobal();
 const router = useRouter();
 
 const setupProcessText = ref("");
@@ -24,7 +23,7 @@ const setupProgressPercent = computed(() => {
   }
 });
 const showSetupProgess = computed(
-  () => setupProcessStepMax.value !== null && !setupCompleted.value,
+  () => setupProcessStepMax.value !== null && !setupCompleted.value
 );
 const showSetupProcessText = computed(() => !setupCompleted.value);
 const setupCompleted = ref(false);
@@ -32,6 +31,8 @@ const setupCompleted = ref(false);
 let unlisten: Promise<UnlistenFn> | null = null;
 
 onMounted(async () => {
+  appGlobal.appBartitle = "Home";
+
   interface SetupProcess {
     currentStep: number;
     maxStep: number;

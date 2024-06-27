@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { computed, ComputedRef, inject, ref } from "vue";
+import { computed, ComputedRef, inject, onMounted, ref } from "vue";
 import ProjectCard from "./components/ProjectCard.vue";
 import { Template } from "./type";
 import { useRouter } from "vue-router";
 import { ProjectInfo } from "./type";
 import { invoke } from "@tauri-apps/api/core";
-
-const appBarTitle = inject("appBarTitle") as (arg: string) => void;
-appBarTitle("Create New Project");
+import { useAppGlobal } from "./stores/appGlobal";
 
 const router = useRouter();
+const appGlobal = useAppGlobal();
+
+onMounted(() => (appGlobal.appBartitle = "CreateProject"));
 
 // stepper
 const step = ref(0);
@@ -25,7 +26,7 @@ const prev = () => {
 };
 
 const templateAutocomplete = Object.values(Template).filter(
-  (value) => typeof value === "string",
+  (value) => typeof value === "string"
 );
 
 const projectName = ref("");
@@ -42,7 +43,7 @@ const projectInfo: ComputedRef<ProjectInfo> = computed(() => {
 // stepper
 const finishedList: Record<number, ComputedRef<boolean>> = {
   [1]: computed(() =>
-    templateAutocomplete.includes(projectTemplateInput.value),
+    templateAutocomplete.includes(projectTemplateInput.value)
   ),
   [2]: computed(() => projectName.value !== ""),
   [3]: computed(() => false),

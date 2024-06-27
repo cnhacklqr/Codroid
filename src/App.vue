@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { provide, ref } from "vue";
+import { ref } from "vue";
 import { exit } from "@tauri-apps/plugin-process";
 import { useRouter } from "vue-router";
+import { useAppGlobal } from "./stores/appGlobal";
 
 const router = useRouter();
-
-const appBarTitle = ref("");
-provide("appBarTitle", (newTitle: string) => (appBarTitle.value = newTitle));
+const appGlobal = useAppGlobal();
 
 const showSidebar = ref(false);
 
@@ -26,7 +25,7 @@ const routeToHomeView = () => {
         @click.stop="showSidebar = !showSidebar"
       ></v-app-bar-nav-icon>
 
-      <v-app-bar-title>{{ appBarTitle }}</v-app-bar-title>
+      <v-app-bar-title>{{ appGlobal.appBartitle }}</v-app-bar-title>
     </v-app-bar>
 
     <v-navigation-drawer v-model="showSidebar">
