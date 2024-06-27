@@ -17,6 +17,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
+import { createPinia } from "pinia";
 
 const routes = [
   { path: "/", component: HomeView },
@@ -42,6 +43,8 @@ const vuetify = createVuetify({
   },
 });
 
+const pinia = createPinia();
+
 library.add(fas);
 library.add(far);
 library.add(fab);
@@ -52,5 +55,6 @@ library.add(fab);
 createApp(App)
   .use(router)
   .use(vuetify)
+  .use(pinia)
   .component("font-awesome-icon", FontAwesomeIcon)
   .mount("#app");
