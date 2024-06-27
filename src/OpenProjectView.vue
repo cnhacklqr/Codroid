@@ -17,7 +17,7 @@ let unlisten: Promise<UnlistenFn> | null = null;
 
 const updateProjectInfo = () => {
   invoke("project_manager_project_infos").then(
-    (infos) => (projectInfos.value = infos as ProjectInfos)
+    (infos) => (projectInfos.value = infos as ProjectInfos),
   );
 };
 

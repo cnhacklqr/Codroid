@@ -23,7 +23,7 @@ const setupProgressPercent = computed(() => {
   }
 });
 const showSetupProgess = computed(
-  () => setupProcessStepMax.value !== null && !setupCompleted.value
+  () => setupProcessStepMax.value !== null && !setupCompleted.value,
 );
 const showSetupProcessText = computed(() => !setupCompleted.value);
 const setupCompleted = ref(false);
