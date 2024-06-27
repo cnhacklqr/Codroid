@@ -86,6 +86,10 @@ impl PathResolver {
         self.codroid_home().join("projects")
     }
 
+    pub fn settings_dir(&self) -> PathBuf {
+        self.codroid_home().join("settings")
+    }
+
     #[cfg(target_os = "android")]
     pub fn proot_root_dir(&self) -> PathBuf {
         self.codroid_home().join("proot_root")
