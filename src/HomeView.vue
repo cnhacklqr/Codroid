@@ -46,7 +46,7 @@ onMounted(async () => {
     setupProcessText.value = payload.message;
   });
 
-  invoke("init_resources").then(() => {
+  invoke("init").then(() => {
     setupCompleted.value = true;
   });
 });

@@ -2,10 +2,6 @@ use log::error;
 use serde::Serialize;
 use tauri::{AppHandle, Manager};
 
-use crate::path_resolver::PathResolver;
-#[cfg(target_os = "android")]
-use crate::proot::setup_rootfs;
-
 #[derive(Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SetupProcess {
@@ -36,22 +32,4 @@ impl SetupProcess {
         app.emit("setup-process", self.clone())
             .unwrap_or_else(|e| error!("{e:?}"));
     }
-}
-
-#[tauri::command]
-pub async fn init_resources(app: AppHandle) {
-    let path_resolver = PathResolver::new(app.clone());
-
-    let mut stepper = SetupProcess::new("Setup Process".into(), 3, &app);
-
-    stepper.next_step("Setting Home Directory".into(), &app); // 1
-    path_resolver.setup();
-
-    #[cfg(target_os = "android")]
-    {
-        stepper.next_step("Checking proot rootfs".into(), &app); // 2
-        setup_rootfs(&path_resolver).unwrap_or_else(|e| error!("{e:?}"));
-    }
-
-    stepper.next_step("All Done".into(), &app); // 3
 }
