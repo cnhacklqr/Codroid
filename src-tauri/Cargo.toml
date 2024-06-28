@@ -37,9 +37,11 @@ symlink = "0.1.0"
 notify = "6.1.1"
 parking_lot = "0.12.3"
 toml = "0.8.14"
-serde_repr = "0.1.19"
 specta = "=2.0.0-rc.12"
-tauri-specta = { version = "=2.0.0-rc.11", features = ["javascript", "typescript"] }
+tauri-specta = { version = "=2.0.0-rc.11", features = [
+    "javascript",
+    "typescript",
+] }
 
 [profile.release]
 codegen-units = 1
