@@ -35,3 +35,7 @@ pnpm tauri build
 ```shell
 pnpm tauri dev
 ```
+
+## Notice
+
+Since tauri_specta requires a cargo test to generate bindings, you had better to execute `cargo test` after any modify of rust code before `pnpm tauri build`
