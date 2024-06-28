@@ -29,9 +29,4 @@ impl SetupProcess {
         self.message = message;
         self.emit(app).unwrap_or_else(|e| error!("{e:?}"));
     }
-
-    /* fn emit(&self, app: &AppHandle) {
-        app.emit("setup-process", self.clone())
-            .unwrap_or_else(|e| error!("{e:?}"));
-    } */
 }

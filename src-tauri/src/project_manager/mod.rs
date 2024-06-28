@@ -10,13 +10,22 @@ use std::{
 use crate::path_resolver::PathResolver;
 use anyhow::Result;
 use log::error;
-use notify::{recommended_watcher, Event, EventKind, RecommendedWatcher, RecursiveMode, Watcher};
+use notify::{
+    recommended_watcher, Event as NotifyEvent, EventKind, RecommendedWatcher, RecursiveMode,
+    Watcher,
+};
 use parking_lot::RwLock;
 use project_info::ProjectInfos;
+use serde::Serialize;
+use specta::Type;
 use tauri::{AppHandle, Manager};
+use tauri_specta::Event;
 
 pub type ProjectInfosWarpper = Arc<RwLock<ProjectInfos>>;
 pub type ProjectManagerWarpper = Arc<RwLock<ProjectManager>>;
+
+#[derive(Serialize, Clone, Copy, Type, Event)]
+pub struct ProjectManagerUpdate;
 
 pub struct ProjectManager {
     watcher: RecommendedWatcher,
@@ -40,13 +49,15 @@ impl ProjectManager {
             let project_infos = project_infos.clone();
             let data_path = data_path.clone();
             let app = app.clone();
-            recommended_watcher(move |event: Result<Event, _>| {
+            recommended_watcher(move |event: Result<NotifyEvent, _>| {
                 if let Ok(event) = event {
                     let kind = event.kind;
                     if matches!(kind, EventKind::Create(_) | EventKind::Remove(_)) {
                         if let Ok(project_infos_new) = Self::read_project_data(data_path.clone()) {
                             *project_infos.write() = project_infos_new;
-                            let _ = app.emit("project-list-update", ());
+                            ProjectManagerUpdate
+                                .emit(&app)
+                                .unwrap_or_else(|e| error!("{e:?}"));
                         }
                     }
                 }

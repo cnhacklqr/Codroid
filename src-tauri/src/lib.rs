@@ -18,7 +18,7 @@ use project_manager::{
         project_manager_create_project, project_manager_init_watcher,
         project_manager_project_infos, project_manager_remove_project,
     },
-    ProjectManager,
+    ProjectManager, ProjectManagerUpdate,
 };
 #[cfg(target_os = "android")]
 use proot::setup_rootfs;
@@ -55,8 +55,12 @@ pub fn run() {
             project_manager_create_project,
             project_manager_remove_project,
         ])
-        .events(tauri_specta::collect_events![SetupProcess])
+        .events(tauri_specta::collect_events![
+            SetupProcess,
+            ProjectManagerUpdate
+        ])
         .path("../src/bindings.ts")
+        .header("// @ts-nocheck")
         .build()
         .unwrap();
 
