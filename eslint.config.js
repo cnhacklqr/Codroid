@@ -16,7 +16,7 @@ export default [
   eslintPluginPrettierRecommended,
   eslintConfigPrettier,
   {
-    ignores: ["src/vite-env.d.ts"],
+    ignores: ["src/vite-env.d.ts", "src/bindings.ts"],
   },
   {
     languageOptions: {
