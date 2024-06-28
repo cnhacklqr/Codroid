@@ -34,5 +34,7 @@ pub fn setup_rootfs(path_resolver: &PathResolver) -> Result<()> {
         fs::rename(proot_cache_dir.join("archlinux-aarch64"), proot_root)?;
     }
 
+    path_resolver.extra_setup_proot();
+
     Ok(())
 }

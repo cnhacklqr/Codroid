@@ -8,6 +8,7 @@ use symlink::symlink_dir;
 use tauri::AppHandle;
 use tauri_plugin_android_utils::AndroidUtilsExt;
 
+#[derive(Clone)]
 pub struct PathResolver {
     app: AppHandle,
 }
@@ -31,27 +32,27 @@ impl PathResolver {
             fs::create_dir(bin_dir).unwrap_or_else(|e| error!("{e:?}"));
         }
 
-        let project_dir = self.project_dir();
-
-        #[cfg(target_os = "android")]
-        {
-            let proot_home = self.proot_home_dir();
-            let proot_project_dir = proot_home.join("projects");
-
-            if !proot_project_dir.exists() {
-                fs::create_dir(&proot_project_dir).unwrap_or_else(|e| error!("{e:?}"));
-            }
-
-            android_recreate_symlink_dir(proot_project_dir, project_dir)
-                .unwrap_or_else(|e| error!("{e:?}"));
-        }
-
         #[cfg(not(target_os = "android"))]
         {
+            let project_dir = self.project_dir();
             if !project_dir.exists() {
                 fs::create_dir(self.project_dir()).unwrap_or_else(|e| error!("{e:?}"));
             }
         }
+    }
+
+    #[cfg(target_os = "android")]
+    pub fn extra_setup_proot(&self) {
+        let project_dir = self.project_dir();
+        let proot_home = self.proot_home_dir();
+        let proot_project_dir = proot_home.join("projects");
+
+        if !proot_project_dir.exists() {
+            fs::create_dir(&proot_project_dir).unwrap_or_else(|e| error!("{e:?}"));
+        }
+
+        android_recreate_symlink_dir(proot_project_dir, project_dir)
+            .unwrap_or_else(|e| error!("{e:?}"));
     }
 
     pub fn codroid_home(&self) -> PathBuf {
