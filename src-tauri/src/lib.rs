@@ -25,6 +25,7 @@ use proot::setup_rootfs;
 use setup_process::SetupProcess;
 
 #[tauri::command]
+#[specta::specta]
 async fn init(app: AppHandle) {
     let path_resolver = PathResolver::new(app.clone());
 
@@ -46,6 +47,19 @@ async fn init(app: AppHandle) {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    let (invoke_handler, register_events) = tauri_specta::ts::builder()
+        .commands(tauri_specta::collect_commands![
+            init,
+            project_manager_project_infos,
+            project_manager_init_watcher,
+            project_manager_create_project,
+            project_manager_remove_project,
+        ])
+        .events(tauri_specta::collect_events![SetupProcess])
+        .path("../src/bindings.ts")
+        .build()
+        .unwrap();
+
     tauri::Builder::default()
         .plugin(
             tauri_plugin_log::Builder::new()
@@ -58,13 +72,11 @@ pub fn run() {
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_android_utils::init())
-        .invoke_handler(tauri::generate_handler![
-            init,
-            project_manager_project_infos,
-            project_manager_init_watcher,
-            project_manager_create_project,
-            project_manager_remove_project,
-        ])
+        .invoke_handler(invoke_handler)
+        .setup(|app| {
+            register_events(app);
+            Ok(())
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -7,16 +7,19 @@ use super::{
 };
 
 #[tauri::command]
+#[specta::specta]
 pub fn project_manager_init_watcher(state: State<ProjectManagerWarpper>) {
     state.write().rewatch().unwrap_or_else(|e| error!("{e:?}"));
 }
 
 #[tauri::command]
+#[specta::specta]
 pub fn project_manager_project_infos(state: State<ProjectManagerWarpper>) -> ProjectInfos {
     state.read().project_infos.read().clone()
 }
 
 #[tauri::command]
+#[specta::specta]
 pub fn project_manager_create_project(
     project_info: ProjectInfo,
     state: State<ProjectManagerWarpper>,
@@ -32,6 +35,7 @@ pub fn project_manager_create_project(
 }
 
 #[tauri::command]
+#[specta::specta]
 pub fn project_manager_remove_project(project_name: String, state: State<ProjectManagerWarpper>) {
     state
         .read()

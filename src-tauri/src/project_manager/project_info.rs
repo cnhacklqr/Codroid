@@ -1,24 +1,23 @@
 use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
-use serde_repr::{Deserialize_repr, Serialize_repr};
+use specta::Type;
 
-#[derive(Clone, Serialize, Deserialize, Default)]
+#[derive(Clone, Serialize, Deserialize, Default, Type)]
 #[serde(rename_all = "camelCase")]
 pub struct ProjectInfos {
     pub infos: HashMap<String, ProjectInfo>,
 }
 
-#[derive(Clone, Deserialize, Serialize)]
+#[derive(Clone, Deserialize, Serialize, Type)]
 #[serde(rename_all = "camelCase")]
 pub struct ProjectInfo {
     pub name: String,
     pub template: Template,
 }
 
-#[derive(Serialize_repr, Deserialize_repr, Clone, Copy)]
+#[derive(Serialize, Deserialize, Type, Clone, Copy)]
 #[serde(rename_all = "camelCase")]
-#[repr(u16)]
 pub enum Template {
     RustBinary,
     RustLibrary,

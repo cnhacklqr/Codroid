@@ -1,8 +1,10 @@
 use log::error;
 use serde::Serialize;
-use tauri::{AppHandle, Manager};
+use specta::Type;
+use tauri::AppHandle;
+use tauri_specta::Event;
 
-#[derive(Clone, Serialize)]
+#[derive(Clone, Serialize, Type, Event)]
 #[serde(rename_all = "camelCase")]
 pub struct SetupProcess {
     current_step: i32,
@@ -18,18 +20,18 @@ impl SetupProcess {
             message: inital_message,
         };
 
-        result.emit(app);
+        result.emit(app).unwrap_or_else(|e| error!("{e:?}"));
         result
     }
 
     pub fn next_step(&mut self, message: String, app: &AppHandle) {
         self.current_step += 1;
         self.message = message;
-        self.emit(app);
+        self.emit(app).unwrap_or_else(|e| error!("{e:?}"));
     }
 
-    fn emit(&self, app: &AppHandle) {
+    /* fn emit(&self, app: &AppHandle) {
         app.emit("setup-process", self.clone())
             .unwrap_or_else(|e| error!("{e:?}"));
-    }
+    } */
 }
