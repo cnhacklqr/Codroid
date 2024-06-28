@@ -8,9 +8,8 @@ mod proot;
 mod res;
 mod setup_process;
 
-use anyhow::Result;
 use log::error;
-use tauri::{ipc::Invoke, App, AppHandle, Manager};
+use tauri::{AppHandle, Manager};
 use tauri_plugin_log::{Target, TargetKind};
 
 use path_resolver::PathResolver;
@@ -24,6 +23,23 @@ use project_manager::{
 #[cfg(target_os = "android")]
 use proot::setup_rootfs;
 use setup_process::SetupProcess;
+
+macro_rules! specta_builder {
+    () => {
+        tauri_specta::ts::builder()
+            .commands(tauri_specta::collect_commands![
+                init,
+                project_manager_project_infos,
+                project_manager_init_watcher,
+                project_manager_create_project,
+                project_manager_remove_project,
+            ])
+            .events(tauri_specta::collect_events![
+                SetupProcess,
+                ProjectManagerUpdate
+            ])
+    };
+}
 
 #[tauri::command]
 #[specta::specta]
@@ -48,7 +64,7 @@ async fn init(app: AppHandle) {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let (invoke_handler, register_events) = build_tauri_specta(false).unwrap();
+    let (invoke_handler, register_events) = specta_builder!().build().unwrap();
 
     tauri::Builder::default()
         .plugin(
@@ -71,29 +87,12 @@ pub fn run() {
         .expect("error while running tauri application");
 }
 
-fn build_tauri_specta(export: bool) -> Result<(impl Fn(Invoke) -> bool, impl FnOnce(&App))> {
-    let mut builder = tauri_specta::ts::builder()
-        .commands(tauri_specta::collect_commands![
-            init,
-            project_manager_project_infos,
-            project_manager_init_watcher,
-            project_manager_create_project,
-            project_manager_remove_project,
-        ])
-        .events(tauri_specta::collect_events![
-            SetupProcess,
-            ProjectManagerUpdate
-        ]);
-
-    if export {
-        builder = builder.path("../src/bindings.ts").header("// @ts-nocheck");
-    }
-
-    let result = builder.build()?;
-    Ok(result)
-}
-
 #[test]
 fn export_types() {
-    let _ = build_tauri_specta(true).unwrap();
+    specta_builder!()
+        .path("../src/bindings.ts")
+        .header("// @ts-nocheck")
+        .config(specta::ts::ExportConfig::default().formatter(specta::ts::formatter::prettier))
+        .export()
+        .unwrap();
 }
