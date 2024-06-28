@@ -15,7 +15,7 @@ crate-type = ["lib", "cdylib", "staticlib"]
 tauri-build = { version = "2.0.0-beta", features = [] }
 
 [dependencies]
-tauri = { version = "2.0.0-beta", features = [] }
+tauri = { version = "=2.0.0-beta.22", features = [] }
 tauri-plugin-shell = "2.0.0-beta"
 tauri-plugin-process = "2.0.0-beta"
 tauri-plugin-android-utils = { git = "https://github.com/shadow3aaa/tauri-plugin-android-utils" }
@@ -38,6 +38,8 @@ notify = "6.1.1"
 parking_lot = "0.12.3"
 toml = "0.8.14"
 serde_repr = "0.1.19"
+specta = "=2.0.0-rc.12"
+tauri-specta = { version = "=2.0.0-rc.11", features = ["javascript", "typescript"] }
 
 [profile.release]
 codegen-units = 1
