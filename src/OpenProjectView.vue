@@ -1,38 +1,31 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, Ref } from "vue";
-import { ProjectInfo, ProjectInfos } from "./type";
-import { listen, UnlistenFn } from "@tauri-apps/api/event";
-import { invoke } from "@tauri-apps/api/core";
+import { onMounted, ref, Ref } from "vue";
 import ProjectCard from "./components/ProjectCard.vue";
 import { useAppGlobal } from "./stores/appGlobal";
 import { useProjectInfoGlobal } from "./stores/projectInfoGlobal";
 import { useRouter } from "vue-router";
+import { commands, events, ProjectInfo, ProjectInfos } from "./bindings";
 
 const appGlobal = useAppGlobal();
 const projectInfoGlobal = useProjectInfoGlobal();
 const router = useRouter();
 
 const projectInfos: Ref<ProjectInfos | null> = ref(null);
-let unlisten: Promise<UnlistenFn> | null = null;
 
 const updateProjectInfo = () => {
-  invoke("project_manager_project_infos").then(
-    (infos) => (projectInfos.value = infos as ProjectInfos),
-  );
+  commands
+    .projectManagerProjectInfos()
+    .then((infos) => (projectInfos.value = infos));
 };
 
 onMounted(() => {
   appGlobal.appBartitle = "OpenProject";
   updateProjectInfo();
 
-  unlisten = listen<ProjectInfos>("project-list-update", () => {
-    updateProjectInfo();
-  });
+  events.projectManagerUpdate.listen(() => updateProjectInfo());
 
-  invoke("project_manager_init_watcher");
+  commands.projectManagerInitWatcher();
 });
-
-onUnmounted(() => unlisten?.then((unlisten) => unlisten()));
 
 const openProject = (info: ProjectInfo) => {
   projectInfoGlobal.projectInfo = info;

@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, Ref, computed } from "vue";
+import { ref, onMounted, Ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { listen, UnlistenFn } from "@tauri-apps/api/event";
-import { invoke } from "@tauri-apps/api/core";
 import Spacer from "./components/layout/Spacer.vue";
 import { useAppGlobal } from "./stores/appGlobal";
+import { commands, events } from "./bindings";
 
 const appGlobal = useAppGlobal();
 const router = useRouter();
@@ -28,18 +27,10 @@ const showSetupProgess = computed(
 const showSetupProcessText = computed(() => !setupCompleted.value);
 const setupCompleted = ref(false);
 
-let unlisten: Promise<UnlistenFn> | null = null;
-
 onMounted(async () => {
   appGlobal.appBartitle = "Home";
 
-  interface SetupProcess {
-    currentStep: number;
-    maxStep: number;
-    message: string;
-  }
-
-  unlisten = listen<SetupProcess>("setup-process", (event) => {
+  events.setupProcess.listen((event) => {
     const payload = event.payload;
 
     setupProcessStep.value = payload.currentStep;
@@ -47,13 +38,7 @@ onMounted(async () => {
     setupProcessText.value = payload.message;
   });
 
-  invoke("init").then(() => {
-    setupCompleted.value = true;
-  });
-});
-
-onUnmounted(() => {
-  unlisten?.then((unlisten) => unlisten());
+  commands.init().then(() => (setupCompleted.value = true));
 });
 
 const routeToCreateProjectView = () => {

@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { computed, ComputedRef, onMounted, ref } from "vue";
 import ProjectCard from "./components/ProjectCard.vue";
-import { Template } from "./type";
 import { useRouter } from "vue-router";
-import { ProjectInfo } from "./type";
-import { invoke } from "@tauri-apps/api/core";
 import { useAppGlobal } from "./stores/appGlobal";
+import { commands, ProjectInfo, Template } from "./bindings";
 
 const router = useRouter();
 const appGlobal = useAppGlobal();
@@ -25,15 +23,16 @@ const prev = () => {
   }
 };
 
-const templateAutocomplete = Object.values(Template).filter(
-  (value) => typeof value === "string",
-);
+const templateAutocomplete: Array<Template> = [
+  "empty",
+  "rustBinary",
+  "rustLibrary",
+];
 
 const projectName = ref("");
 const projectTemplateInput = ref("");
 const projectInfo: ComputedRef<ProjectInfo> = computed(() => {
-  const template =
-    Template[projectTemplateInput.value as keyof typeof Template];
+  const template = projectTemplateInput.value as Template;
   return {
     name: projectName.value,
     template,
@@ -43,7 +42,7 @@ const projectInfo: ComputedRef<ProjectInfo> = computed(() => {
 // stepper
 const finishedList: Record<number, ComputedRef<boolean>> = {
   [1]: computed(() =>
-    templateAutocomplete.includes(projectTemplateInput.value),
+    (templateAutocomplete as string[]).includes(projectTemplateInput.value),
   ),
   [2]: computed(() => projectName.value !== ""),
   [3]: computed(() => false),
@@ -60,9 +59,7 @@ const stepperActionDisabled = computed(() => {
 
 const confirmCreation = () => {
   // todo: 调用后端创建项目，然后导航到项目编辑器
-  invoke("project_manager_create_project", {
-    projectInfo: projectInfo.value,
-  });
+  commands.projectManagerCreateProject(projectInfo.value);
 };
 </script>
 

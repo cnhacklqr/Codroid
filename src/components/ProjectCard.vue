@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import RustChip from "./chips/RustChip.vue";
 import EmptyChip from "./chips/EmptyChip.vue";
-import { ProjectInfo, Template } from "../type";
+import { ProjectInfo } from "../bindings";
 
 const props = defineProps<{
   info: ProjectInfo;
@@ -10,22 +10,21 @@ const props = defineProps<{
 
 const color = computed(() => {
   switch (props.info.template) {
-    case Template.Empty:
-      return "grey-lighten-2";
-    case Template.RustBinary:
-    case Template.RustLibrary:
-      return "brown-lighten-2";
+    case "empty":
     default:
       return "grey-lighten-2";
+    case "rustBinary":
+    case "rustLibrary":
+      return "brown-lighten-2";
   }
 });
 
 const chips = computed(() => {
   switch (props.info.template) {
-    case Template.Empty:
+    case "empty":
       return [EmptyChip];
-    case Template.RustBinary:
-    case Template.RustLibrary:
+    case "rustBinary":
+    case "rustLibrary":
       return [RustChip];
     default:
       return [];
