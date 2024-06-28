@@ -100,9 +100,7 @@ impl PathResolver {
 
     #[cfg(target_os = "android")]
     pub fn proot_root_dir(&self) -> PathBuf {
-        self.codroid_home()
-            .join("proot_root")
-            .join("archlinux-aarch64")
+        self.codroid_home().join("proot_root")
     }
 
     #[cfg(target_os = "android")]

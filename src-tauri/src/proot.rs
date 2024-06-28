@@ -16,7 +16,7 @@ pub fn setup_rootfs(path_resolver: &PathResolver) -> Result<()> {
         .is_none()
     // Check whether the folder is empty or does not exist
     {
-        let _ = fs::create_dir(&proot_root);
+        fs::create_dir(&proot_root)?;
 
         // start unpack xz
         let rootfs_tar_xz = Resources::get("rootfs/archlinux-aarch64-rootfs.tar.xz")
@@ -26,7 +26,12 @@ pub fn setup_rootfs(path_resolver: &PathResolver) -> Result<()> {
 
         // start unpack tar
         let mut rootfs_untar = Archive::new(rootfs_tar_unxz);
-        rootfs_untar.unpack(proot_root)?;
+
+        let proot_cache_dir = path_resolver.cache_dir().join("proot");
+        let _ = fs::create_dir(&proot_cache_dir);
+        rootfs_untar.unpack(&proot_cache_dir)?;
+
+        fs::rename(proot_cache_dir.join("archlinux-aarch64"), proot_root)?;
     }
 
     Ok(())
