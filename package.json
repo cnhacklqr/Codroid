@@ -38,7 +38,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@mdi/font": "^7.4.47",
     "@tauri-apps/cli": "2.0.0-beta.20",
-    "@typescript-eslint/parser": "8.0.0-alpha.30",
+    "@typescript-eslint/parser": "8.0.0-alpha.34",
     "@vitejs/plugin-vue": "^5.0.5",
     "@yf-ui/vite-plugin-eslint": "^1.8.2",
     "eslint": "^9.5.0",
