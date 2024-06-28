@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ComputedRef, onMounted, ref } from "vue";
+import { computed, ComputedRef, onMounted, ref, Ref } from "vue";
 import ProjectCard from "./components/ProjectCard.vue";
 import { useRouter } from "vue-router";
 import { useAppGlobal } from "./stores/appGlobal";
@@ -30,12 +30,11 @@ const templateAutocomplete: Array<Template> = [
 ];
 
 const projectName = ref("");
-const projectTemplateInput = ref("");
+const projectTemplateInput: Ref<Template> = ref("empty");
 const projectInfo: ComputedRef<ProjectInfo> = computed(() => {
-  const template = projectTemplateInput.value as Template;
   return {
     name: projectName.value,
-    template,
+    template: projectTemplateInput.value,
   };
 });
 
