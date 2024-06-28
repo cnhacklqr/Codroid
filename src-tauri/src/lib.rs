@@ -9,7 +9,7 @@ mod res;
 mod setup_process;
 
 use log::error;
-use tauri::{AppHandle, Manager};
+use tauri::AppHandle;
 use tauri_plugin_log::{Target, TargetKind};
 
 use path_resolver::PathResolver;
@@ -45,21 +45,31 @@ macro_rules! specta_builder {
 #[specta::specta]
 async fn init(app: AppHandle) {
     let path_resolver = PathResolver::new(app.clone());
+    let mut stepper = setup_process::Builder::new();
 
-    let mut stepper = SetupProcess::new("Setup Process".into(), 3, &app);
-
-    stepper.next_step("Setting Home Directory".into(), &app); // 1
-    path_resolver.setup();
+    {
+        let path_resolver = path_resolver.clone();
+        stepper = stepper.next_step("Setting Home Directory".into(), move || {
+            path_resolver.setup();
+        });
+    }
 
     #[cfg(target_os = "android")]
     {
-        stepper.next_step("Checking proot rootfs".into(), &app); // 2
-        setup_rootfs(&path_resolver).unwrap_or_else(|e| error!("{e:?}"));
+        let path_resolver = path_resolver.clone();
+        stepper = stepper.next_step("Checking proot rootfs".into(), move || {
+            setup_rootfs(&path_resolver).unwrap_or_else(|e| error!("{e:?}"));
+        });
     }
 
-    stepper.next_step("All Done".into(), &app); // 3
+    {
+        let app = app.clone();
+        stepper = stepper.next_step("All Done".into(), move || {
+            ProjectManager::managed_by(&app).unwrap_or_else(|e| error!("{e:?}"));
+        });
+    }
 
-    ProjectManager::managed_by(app.app_handle()).unwrap_or_else(|e| error!("{e:?}"));
+    stepper.run(&app);
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
