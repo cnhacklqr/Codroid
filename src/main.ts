@@ -7,17 +7,22 @@ import SettingsView from "./SettingsView.vue";
 import AboutView from "./AboutView.vue";
 import CreateProjectView from "./CreateProjectView.vue";
 import OpenProjectView from "./OpenProjectView.vue";
-import "vuetify/styles";
-import { createVuetify } from "vuetify";
-import "@mdi/font/css/materialdesignicons.css";
-import { aliases } from "vuetify/iconsets/mdi-svg";
-import { fa } from "vuetify/iconsets/fa-svg";
-import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { far } from "@fortawesome/free-regular-svg-icons";
-import { fab } from "@fortawesome/free-brands-svg-icons";
 import { createPinia } from "pinia";
+import Varlet from "@varlet/ui";
+import "@varlet/ui/es/style";
+import { Themes, StyleProvider } from "@varlet/ui";
+import "@varlet/touch-emulator";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faCode,
+  faFileCode,
+  faCogs,
+  faCircleInfo,
+  faDove,
+  faCog,
+} from "@fortawesome/free-solid-svg-icons";
+import { faRust } from "@fortawesome/free-brands-svg-icons";
 
 const routes = [
   { path: "/", component: HomeView },
@@ -33,28 +38,17 @@ const router = createRouter({
   routes,
 });
 
-const vuetify = createVuetify({
-  icons: {
-    defaultSet: "mdi",
-    aliases,
-    sets: {
-      fa,
-    },
-  },
-});
-
 const pinia = createPinia();
+StyleProvider(Themes.md3Light);
 
-library.add(fas);
-library.add(far);
-library.add(fab);
+library.add(faCode, faFileCode, faCogs, faCircleInfo, faDove, faRust, faCog);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 (window as any).router = router;
 
 createApp(App)
   .use(router)
-  .use(vuetify)
   .use(pinia)
+  .use(Varlet)
   .component("font-awesome-icon", FontAwesomeIcon)
   .mount("#app");

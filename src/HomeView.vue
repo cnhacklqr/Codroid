@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, Ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import Spacer from "./components/layout/Spacer.vue";
 import { useAppGlobal } from "./stores/appGlobal";
 import { commands, events } from "./bindings";
 
@@ -21,11 +20,7 @@ const setupProgressPercent = computed(() => {
     ).toFixed(2);
   }
 });
-const showSetupProgess = computed(
-  () => setupProcessStepMax.value !== null && !setupCompleted.value,
-);
-const showSetupProcessText = computed(() => !setupCompleted.value);
-const setupCompleted = ref(false);
+const doningSetup = ref(true);
 
 onMounted(async () => {
   appGlobal.appBartitle = "Home";
@@ -38,7 +33,7 @@ onMounted(async () => {
     setupProcessText.value = payload.message;
   });
 
-  commands.init().then(() => (setupCompleted.value = true));
+  commands.init().then(() => (doningSetup.value = false));
 });
 
 const routeToCreateProjectView = () => {
@@ -59,114 +54,71 @@ const routeToAboutView = () => {
 </script>
 
 <template>
-  <v-container class="container">
-    <v-icon icon="mdi-android-studio" class="titleIcon"></v-icon>
+  <var-space direction="column" align="center" justify="center">
+    <font-awesome-icon icon="fa-solid fa-code" size="5x" />
     <h1 class="title">Codroid</h1>
 
-    <v-list class="menu">
-      <v-list-group>
-        <template #activator="{ props }">
-          <v-list-item
-            v-bind="props"
-            title="Project"
-            subtitle="Manage Projects"
-            prepend-icon="mdi-code-braces"
-            rounded="pill"
-          >
-          </v-list-item>
-        </template>
-
-        <v-list-item
-          title="Create new project"
-          prepend-icon="mdi-creation"
-          rounded="pill"
-          :disabled="!setupCompleted"
-          @click="routeToCreateProjectView"
-        >
-        </v-list-item>
-
-        <v-list-item
-          title="Open Project"
-          prepend-icon="mdi-folder"
-          rounded="pill"
-          :disabled="!setupCompleted"
-          @click="routeToOpenProjectView"
-        >
-        </v-list-item>
-      </v-list-group>
-
-      <v-list-item
-        title="Settings"
-        subtitle="Configure Codroid"
-        prepend-icon="mdi-cogs"
-        rounded="pill"
-        :disabled="!setupCompleted"
-        @click="routeToSettingsView"
-      >
-      </v-list-item>
-
-      <v-list-item
-        title="About"
-        subtitle="Author, licenses, and etc."
-        prepend-icon="mdi-information-outline"
-        rounded="pill"
-        @click="routeToAboutView"
-      >
-      </v-list-item>
-    </v-list>
-
-    <Spacer />
-
-    <v-progress-linear
-      v-if="showSetupProgess"
-      :model-value="setupProgressPercent"
-      class="setupProcessLinear"
-      stream
-      color="grey-darken-1"
-    ></v-progress-linear>
-
-    <div
-      v-if="showSetupProcessText"
-      class="setupProcessText text-grey-lighten-1"
+    <var-loading
+      :loading="doningSetup"
+      :description="setupProgressPercent.toString"
+      style="width: 500px"
     >
-      {{ setupProcessText }} {{ setupProgressPercent }}%
-    </div>
-  </v-container>
+      <var-paper>
+        <var-menu same-width>
+          <var-cell title="Project" description="Open / Create A Project">
+            <template #icon>
+              <font-awesome-icon
+                icon="fa-solid fa-file-code"
+                class="code-icon"
+              />
+            </template>
+          </var-cell>
+
+          <template #menu>
+            <var-cell @click="routeToOpenProjectView">Open</var-cell>
+            <var-cell @click="routeToCreateProjectView">Create</var-cell>
+          </template>
+        </var-menu>
+
+        <var-cell
+          title="Settings"
+          description="Configure Codroid"
+          @click="routeToSettingsView"
+        >
+          <template #icon>
+            <var-space>
+              <font-awesome-icon icon="fa-solid fa-cog" class="icon" />
+            </var-space>
+          </template>
+        </var-cell>
+
+        <var-cell
+          title="About"
+          description="Author, licenses, and etc"
+          @click="routeToAboutView"
+        >
+          <template #icon>
+            <font-awesome-icon icon="fa-solid fa-circle-info" class="icon" />
+          </template>
+        </var-cell>
+      </var-paper>
+    </var-loading>
+  </var-space>
 </template>
 
 <style scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  width: 80%;
-}
-
-.titleIcon {
-  margin: auto;
-  font-size: 130px;
-  padding-top: 100px;
-}
-
-.title {
-  margin: auto;
-  font-size: 30px;
-  padding-top: 75px;
-}
-
 .menu {
-  margin: auto;
-  padding-top: 25px;
-  width: 100%;
+  width: 200px;
 }
 
-.setupProcessLinear {
-  margin: auto;
+.code-icon {
+  margin-right: 15px;
+  font-size: 1.5em;
+  margin-left: 2px;
 }
 
-.setupProcessText {
-  margin: auto;
-  font-size: small;
-  white-space: pre-wrap;
-  text-align: center;
+.icon {
+  margin-right: 15px;
+  font-size: 1.5em;
 }
 </style>

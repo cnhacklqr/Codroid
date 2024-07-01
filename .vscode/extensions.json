@@ -6,6 +6,6 @@
     "esbenp.prettier-vscode",
     "tamasfe.even-better-toml",
     "knisterpeter.vscode-commitizen",
-    "vuetifyjs.vuetify-vscode"
+    "haoziqaq.varlet-vscode-extension"
   ]
 }

@@ -1,5 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <v-chip append-icon="mdi-null" color="grey-lighten-2">Empty</v-chip>
+  <var-chip color="#BDBDBD">
+    empty
+    <template #left>
+      <font-awesome-icon icon="fa-solid fa-dove" />
+    </template>
+  </var-chip>
 </template>

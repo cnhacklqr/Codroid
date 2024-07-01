@@ -1,5 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <v-chip append-icon="fa:fab fa-rust" color="brown-darken-4">Rust</v-chip>
+  <var-chip color="#8D6E63">
+    rust
+    <template #left>
+      <font-awesome-icon icon="fa-brands fa-rust" />
+    </template>
+  </var-chip>
 </template>

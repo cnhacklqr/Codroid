@@ -8,17 +8,6 @@ const props = defineProps<{
   info: ProjectInfo;
 }>();
 
-const color = computed(() => {
-  switch (props.info.template) {
-    case "empty":
-    default:
-      return "grey-lighten-2";
-    case "rustBinary":
-    case "rustLibrary":
-      return "brown-lighten-2";
-  }
-});
-
 const chips = computed(() => {
   switch (props.info.template) {
     case "empty":
@@ -33,13 +22,13 @@ const chips = computed(() => {
 </script>
 
 <template>
-  <v-card variant="flat" :color="color" hover
-    ><v-card-title>Project Name: {{ info.name }}</v-card-title>
-
-    <v-card-item>
-      <v-chip-group v-for="(chip, index) in chips" :key="index" draggable>
-        <component :is="chip"></component>
-      </v-chip-group>
-    </v-card-item>
-  </v-card>
+  <var-card :title="info.name">
+    <template #extra>
+      <component
+        :is="chip"
+        v-for="(chip, index) in chips"
+        :key="index"
+      ></component>
+    </template>
+  </var-card>
 </template>

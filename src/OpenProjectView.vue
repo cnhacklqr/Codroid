@@ -34,15 +34,22 @@ const openProject = (info: ProjectInfo) => {
 </script>
 
 <template>
-  <v-item-group selected-class="bg-primary">
-    <v-col md="4">
+  <var-list>
+    <var-cell>
       <ProjectCard
         v-for="(project, index) in projectInfos?.infos"
         :key="index"
         :info="project"
-        class="mb-4"
+        class="project-card"
         @click="openProject(project)"
       />
-    </v-col>
-  </v-item-group>
+    </var-cell>
+  </var-list>
 </template>
+
+<style scoped>
+.project-card {
+  margin: auto;
+  margin-top: 25px;
+}
+</style>
