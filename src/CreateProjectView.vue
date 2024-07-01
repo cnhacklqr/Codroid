@@ -59,38 +59,46 @@ const backToHome = () => router.replace("/");
 </script>
 
 <template>
-  <var-steps :active="step">
-    <var-step>Select Project Template</var-step>
-    <var-step>Configure Project</var-step>
-    <var-step>Confirm Project Information</var-step>
+  <var-space align="center" justify="center">
+    <var-steps :active="step" class="stepper">
+      <var-step>Select Project Template</var-step>
+      <var-step>Configure Project</var-step>
+      <var-step>Confirm Project Information</var-step>
+    </var-steps>
+  </var-space>
 
+  <var-space align="center" justify="center">
     <var-card
       v-if="stepPrefixed === 1"
       title="Create New Project"
       subtitle="Select Project Template"
+      class="stepper-content"
     >
       <template #description>
-        <p>
-          1. Understand project type: Determine the type of project before
-          selecting a template.<br />
-          2. Plan project: Consider long-term plan and goals when choosing a
-          template.<br />
-          3. Compare options: Choose from multiple templates with strengths and
-          weaknesses in mind.<br />
-        </p>
-      </template>
-
-      <template #extra>
         <var-space>
-          <var-select v-model="projectTemplate">
+          <p class="description">
+            1. Understand project type: Determine the type of project before
+            selecting a template.<br />
+            2. Plan project: Consider long-term plan and goals when choosing a
+            template.<br />
+            3. Compare options: Choose from multiple templates with strengths
+            and weaknesses in mind.<br />
+          </p>
+        </var-space>
+
+        <var-space>
+          <var-select v-model="projectTemplate" class="input">
             <var-option
               v-for="(labal, index) in templateList"
               :key="index"
+              placeholder="empty"
               :label="labal"
             />
           </var-select>
         </var-space>
+      </template>
 
+      <template #extra>
         <var-space>
           <var-button type="primary" @click="prev">Prev</var-button>
           <var-button
@@ -107,21 +115,28 @@ const backToHome = () => router.replace("/");
       v-if="stepPrefixed === 2"
       title="Create New Project"
       subtitle="Configure Project"
+      class="stepper-content"
     >
       <template #description>
-        <p>
-          1. Use clear and concise language.<br />
-          2. Focus on the most important information.<br />
-          3. Avoid unnecessary words or phrases.<br />
-          4. Keep it simple and easy to understand.<br />
-        </p>
+        <var-space>
+          <p class="description">
+            1. Use clear and concise language.<br />
+            2. Focus on the most important information.<br />
+            3. Avoid unnecessary words or phrases.<br />
+            4. Keep it simple and easy to understand.<br />
+          </p>
+        </var-space>
+
+        <var-space>
+          <var-input
+            v-model="projectName"
+            placeholder="Project Name"
+            class="input"
+          />
+        </var-space>
       </template>
 
       <template #extra>
-        <var-space>
-          <var-input v-model="projectName" placeholder="Project Name" />
-        </var-space>
-
         <var-space>
           <var-button type="primary" @click="prev">Prev</var-button>
           <var-button
@@ -150,11 +165,35 @@ const backToHome = () => router.replace("/");
         </template>
       </var-result>
     </var-popup>
-  </var-steps>
+  </var-space>
 </template>
 
 <style scoped>
 .result {
   width: 75vw !important;
+}
+
+.stepper {
+  margin-top: 5vh;
+  width: 80vw;
+}
+
+.stepper-content {
+  width: 80vw;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
+
+.description {
+  margin: auto;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  color: #9e9e9e;
+  font-size: small;
+}
+
+.input {
+  margin-left: 1rem;
+  width: 15rem;
 }
 </style>

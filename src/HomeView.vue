@@ -61,9 +61,9 @@ const routeToAboutView = () => {
     <var-loading
       :loading="doningSetup"
       :description="setupProgressPercent.toString()"
-      style="width: 500px"
+      style="width: 500r"
     >
-      <var-paper>
+      <var-paper class="menu">
         <var-menu same-width>
           <var-cell title="Project" description="Open / Create A Project">
             <template #icon>
@@ -108,17 +108,18 @@ const routeToAboutView = () => {
 
 <style scoped>
 .menu {
-  width: 200px;
+  width: 75vw;
 }
 
 .code-icon {
   margin-right: 15px;
-  font-size: 1.5em;
+  font-size: 1.5rem;
   margin-left: 2px;
+  margin-right: 19px;
 }
 
 .icon {
   margin-right: 15px;
-  font-size: 1.5em;
+  font-size: 1.5rem;
 }
 </style>

@@ -36,20 +36,15 @@ const openProject = (info: ProjectInfo) => {
 <template>
   <var-list>
     <var-cell>
-      <ProjectCard
-        v-for="(project, index) in projectInfos?.infos"
-        :key="index"
-        :info="project"
-        class="project-card"
-        @click="openProject(project)"
-      />
+      <var-space align="start" justify="start">
+        <ProjectCard
+          v-for="(project, index) in projectInfos?.infos"
+          :key="index"
+          :info="project"
+          class="project-card"
+          @click="openProject(project)"
+        />
+      </var-space>
     </var-cell>
   </var-list>
 </template>
-
-<style scoped>
-.project-card {
-  margin: auto;
-  margin-top: 25px;
-}
-</style>

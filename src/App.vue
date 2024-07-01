@@ -40,7 +40,7 @@ const routeToHomeView = () => {
 
 <style>
 .appBar {
-  margin-bottom: 25px;
+  margin-bottom: 5vh;
 }
 
 * {
