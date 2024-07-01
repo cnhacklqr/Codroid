@@ -6,5 +6,5 @@ const value = ref("");
 </script>
 
 <template>
-  <code-mirror v-model="value" />
+  <code-mirror v-model="value" basic />
 </template>
