@@ -60,7 +60,7 @@ const routeToAboutView = () => {
 
     <var-loading
       :loading="doningSetup"
-      :description="setupProgressPercent.toString"
+      :description="setupProgressPercent.toString()"
       style="width: 500px"
     >
       <var-paper>
