@@ -3,9 +3,11 @@ import { computed, ComputedRef, onMounted, ref, Ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAppGlobal } from "./stores/appGlobal";
 import { commands, ProjectInfo, Template } from "./bindings";
+import { useProjectInfoGlobal } from "./stores/projectInfoGlobal";
 
 const router = useRouter();
 const appGlobal = useAppGlobal();
+const projectInfoGlobal = useProjectInfoGlobal();
 
 onMounted(() => (appGlobal.appBartitle = "CreateProject"));
 
@@ -54,7 +56,10 @@ const confirmCreation = () => {
   success.value = true;
 };
 
-const openProject = () => router.push("project");
+const openProject = () => {
+  projectInfoGlobal.projectInfo = projectInfo.value!;
+  router.push("project");
+};
 const backToHome = () => router.replace("/");
 </script>
 
@@ -149,19 +154,29 @@ const backToHome = () => router.replace("/");
       </template>
     </var-card>
 
-    <var-popup v-model:show="success" :default-style="false">
+    <var-popup
+      v-model:show="success"
+      :default-style="false"
+      :close-on-click-overlay="false"
+      :close-on-key-escape="false"
+    >
       <var-result
         class="result"
         title="Successed"
         description="Your Project was created successfully."
       >
         <template #footer>
-          <var-button type="success" @click="openProject">
-            Open Project
-          </var-button>
-          <var-button type="success" @click="backToHome">
-            Back to Home Page
-          </var-button>
+          <var-row>
+            <var-space direction="column" align="center">
+              <var-button type="success" @click="openProject">
+                Open Project
+              </var-button>
+
+              <var-button type="success" @click="backToHome">
+                Back to Home Page
+              </var-button>
+            </var-space>
+          </var-row>
         </template>
       </var-result>
     </var-popup>

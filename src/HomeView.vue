@@ -61,11 +61,15 @@ const routeToAboutView = () => {
     <var-loading
       :loading="doningSetup"
       :description="setupProgressPercent.toString()"
-      style="width: 500r"
     >
       <var-paper class="menu">
-        <var-menu same-width>
-          <var-cell title="Project" description="Open / Create A Project">
+        <var-menu>
+          <var-cell
+            v-ripple
+            title="Project"
+            description="Open / Create A Project"
+            class="menu-cell"
+          >
             <template #icon>
               <font-awesome-icon
                 icon="fa-solid fa-file-code"
@@ -81,8 +85,10 @@ const routeToAboutView = () => {
         </var-menu>
 
         <var-cell
+          v-ripple
           title="Settings"
           description="Configure Codroid"
+          class="menu-cell"
           @click="routeToSettingsView"
         >
           <template #icon>
@@ -93,8 +99,10 @@ const routeToAboutView = () => {
         </var-cell>
 
         <var-cell
+          v-ripple
           title="About"
           description="Author, licenses, and etc"
+          class="menu-cell"
           @click="routeToAboutView"
         >
           <template #icon>
@@ -109,6 +117,10 @@ const routeToAboutView = () => {
 <style scoped>
 .menu {
   width: 75vw;
+}
+
+.menu-cell {
+  width: 100rem;
 }
 
 .code-icon {

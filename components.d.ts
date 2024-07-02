@@ -27,9 +27,13 @@ declare module 'vue' {
     VarPaper: typeof import('@varlet/ui')['_PaperComponent']
     VarPopup: typeof import('@varlet/ui')['_PopupComponent']
     VarResult: typeof import('@varlet/ui')['_ResultComponent']
+    VarRow: typeof import('@varlet/ui')['_RowComponent']
     VarSelect: typeof import('@varlet/ui')['_SelectComponent']
     VarSpace: typeof import('@varlet/ui')['_SpaceComponent']
     VarStep: typeof import('@varlet/ui')['_StepComponent']
     VarSteps: typeof import('@varlet/ui')['_StepsComponent']
+  }
+  export interface ComponentCustomProperties {
+    vRipple: typeof import('@varlet/ui')['_RippleComponent']
   }
 }
