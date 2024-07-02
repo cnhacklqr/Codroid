@@ -11,8 +11,7 @@ use crate::path_resolver::PathResolver;
 use anyhow::Result;
 use log::error;
 use notify::{
-    recommended_watcher, Event as NotifyEvent, EventKind, RecommendedWatcher, RecursiveMode,
-    Watcher,
+    recommended_watcher, Event as NotifyEvent, RecommendedWatcher, RecursiveMode, Watcher,
 };
 use parking_lot::RwLock;
 use project_info::ProjectInfos;
@@ -52,7 +51,7 @@ impl ProjectManager {
             recommended_watcher(move |event: Result<NotifyEvent, _>| {
                 if let Ok(event) = event {
                     let kind = event.kind;
-                    if matches!(kind, EventKind::Create(_) | EventKind::Remove(_)) {
+                    if kind.is_modify() {
                         if let Ok(project_infos_new) = Self::read_project_data(data_path.clone()) {
                             *project_infos.write() = project_infos_new;
                             ProjectManagerUpdate
