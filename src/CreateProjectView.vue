@@ -166,17 +166,15 @@ const backToHome = () => router.replace("/");
         description="Your Project was created successfully."
       >
         <template #footer>
-          <var-row>
-            <var-space direction="column" align="center">
-              <var-button type="success" @click="openProject">
-                Open Project
-              </var-button>
+          <var-space direction="row" align="center">
+            <var-button type="success" @click="openProject">
+              Open Project
+            </var-button>
 
-              <var-button type="success" @click="backToHome">
-                Back to Home Page
-              </var-button>
-            </var-space>
-          </var-row>
+            <var-button type="success" @click="backToHome">
+              Back to Home Page
+            </var-button>
+          </var-space>
         </template>
       </var-result>
     </var-popup>
