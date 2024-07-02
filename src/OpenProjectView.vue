@@ -9,6 +9,7 @@ import { commands, events, ProjectInfo, ProjectInfos } from "./bindings";
 const appGlobal = useAppGlobal();
 const projectInfoGlobal = useProjectInfoGlobal();
 const router = useRouter();
+const showDeletePopup = ref(false);
 
 const projectInfos: Ref<ProjectInfos | null> = ref(null);
 
@@ -31,20 +32,53 @@ const openProject = (info: ProjectInfo) => {
   projectInfoGlobal.projectInfo = info;
   router.push("project");
 };
+
+const deleteProject = (info: ProjectInfo) => {
+  commands.projectManagerRemoveProject(info.name);
+  showDeletePopup.value = false;
+};
 </script>
 
 <template>
   <var-list>
     <var-cell>
       <var-space align="start" justify="start">
-        <ProjectCard
-          v-for="(project, index) in projectInfos?.infos"
-          :key="index"
-          :info="project"
-          class="project-card"
-          @click="openProject(project)"
-        />
+        <var-menu v-for="(project, index) in projectInfos?.infos" :key="index">
+          <ProjectCard v-ripple :info="project" class="project-card" />
+
+          <template #menu>
+            <var-cell v-ripple @click="openProject(project)">Open</var-cell>
+            <var-cell v-ripple color="primary" @click="showDeletePopup = true"
+              >Delete</var-cell
+            >
+            <var-popup v-model:show="showDeletePopup" :default-style="false">
+              <var-result
+                class="result"
+                type="warning"
+                :title="`Delete Project: \'${project.name}\' ?`"
+                description="This is unrecoverable!"
+              >
+                <template #footer>
+                  <var-space direction="row" align="center">
+                    <var-button type="danger" @click="deleteProject(project)">
+                      Confirm
+                    </var-button>
+                    <var-button type="info" @click="showDeletePopup = false">
+                      Cancel
+                    </var-button>
+                  </var-space>
+                </template>
+              </var-result>
+            </var-popup>
+          </template>
+        </var-menu>
       </var-space>
     </var-cell>
   </var-list>
 </template>
+
+<style scoped>
+.result {
+  width: 75vw !important;
+}
+</style>
