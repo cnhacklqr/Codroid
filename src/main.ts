@@ -21,6 +21,7 @@ import {
   faCircleInfo,
   faDove,
   faCog,
+  faKiwiBird,
 } from "@fortawesome/free-solid-svg-icons";
 import { faRust } from "@fortawesome/free-brands-svg-icons";
 
@@ -41,7 +42,16 @@ const router = createRouter({
 const pinia = createPinia();
 StyleProvider(Themes.md3Light);
 
-library.add(faCode, faFileCode, faCogs, faCircleInfo, faDove, faRust, faCog);
+library.add(
+  faCode,
+  faFileCode,
+  faCogs,
+  faCircleInfo,
+  faDove,
+  faRust,
+  faCog,
+  faKiwiBird,
+);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 (window as any).router = router;

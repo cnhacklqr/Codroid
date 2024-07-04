@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     CodeEditor: typeof import('./src/components/CodeEditor.vue')['default']
     EmptyChip: typeof import('./src/components/chips/EmptyChip.vue')['default']
+    PlaceHolderPage: typeof import('./src/components/PlaceHolderPage.vue')['default']
     ProjectCard: typeof import('./src/components/ProjectCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

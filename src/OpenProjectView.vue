@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, Ref } from "vue";
+import { computed, onMounted, ref, Ref } from "vue";
 import ProjectCard from "./components/ProjectCard.vue";
 import { useAppGlobal } from "./stores/appGlobal";
 import { useProjectInfoGlobal } from "./stores/projectInfoGlobal";
@@ -12,6 +12,12 @@ const router = useRouter();
 const showDeletePopup = ref(false);
 
 const projectInfos: Ref<ProjectInfos | null> = ref(null);
+const showPlaceholder = computed(() => {
+  return (
+    projectInfos.value === null ||
+    Object.values(projectInfos.value).length === 1
+  );
+});
 
 const updateProjectInfo = () => {
   commands
@@ -40,41 +46,51 @@ const deleteProject = (info: ProjectInfo) => {
 </script>
 
 <template>
-  <var-list>
-    <var-cell>
-      <var-space align="start" justify="start">
-        <var-menu v-for="(project, index) in projectInfos?.infos" :key="index">
-          <ProjectCard v-ripple :info="project" class="project-card" />
+  <div>
+    <var-list v-if="!showPlaceholder">
+      <var-cell>
+        <var-space align="start" justify="start">
+          <var-menu
+            v-for="(project, index) in projectInfos?.infos"
+            :key="index"
+          >
+            <ProjectCard v-ripple :info="project" class="project-card" />
 
-          <template #menu>
-            <var-cell v-ripple @click="openProject(project)">Open</var-cell>
-            <var-cell v-ripple color="primary" @click="showDeletePopup = true"
-              >Delete</var-cell
-            >
-            <var-popup v-model:show="showDeletePopup" :default-style="false">
-              <var-result
-                class="result"
-                type="warning"
-                :title="`Delete Project: \'${project.name}\' ?`"
-                description="This is unrecoverable!"
+            <template #menu>
+              <var-cell v-ripple @click="openProject(project)">Open</var-cell>
+              <var-cell v-ripple color="primary" @click="showDeletePopup = true"
+                >Delete</var-cell
               >
-                <template #footer>
-                  <var-space direction="row" align="center">
-                    <var-button type="danger" @click="deleteProject(project)">
-                      Confirm
-                    </var-button>
-                    <var-button type="info" @click="showDeletePopup = false">
-                      Cancel
-                    </var-button>
-                  </var-space>
-                </template>
-              </var-result>
-            </var-popup>
-          </template>
-        </var-menu>
-      </var-space>
-    </var-cell>
-  </var-list>
+              <var-popup v-model:show="showDeletePopup" :default-style="false">
+                <var-result
+                  class="result"
+                  type="warning"
+                  :title="`Delete Project: \'${project.name}\' ?`"
+                  description="This is unrecoverable!"
+                >
+                  <template #footer>
+                    <var-space direction="row" align="center">
+                      <var-button type="danger" @click="deleteProject(project)">
+                        Confirm
+                      </var-button>
+                      <var-button type="info" @click="showDeletePopup = false">
+                        Cancel
+                      </var-button>
+                    </var-space>
+                  </template>
+                </var-result>
+              </var-popup>
+            </template>
+          </var-menu>
+        </var-space>
+      </var-cell>
+    </var-list>
+
+    <PlaceHolderPage
+      v-if="showPlaceholder"
+      reason="Your have no project here"
+    />
+  </div>
 </template>
 
 <style scoped>
