@@ -16,5 +16,8 @@
   },
   "[rust]": {
     "editor.tabSize": 4
+  },
+  "[css]": {
+    "editor.tabSize": 2
   }
 }
