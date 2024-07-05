@@ -1,7 +1,7 @@
 import { tags as t } from "@lezer/highlight";
 import { createTheme } from "thememirror";
 
-export const tomorrow = createTheme({
+export const light = createTheme({
   variant: "light",
   settings: {
     background: "var(--color-body)",
