@@ -32,11 +32,11 @@ const props = defineProps({
 
 .kiwi-bird {
   font-size: 10rem;
-  color: gray;
+  color: var(--grey-darken);
 }
 
 .placeholder {
   font-size: 1.1rem;
-  color: gray;
+  color: var(--grey-darken);
 }
 </style>

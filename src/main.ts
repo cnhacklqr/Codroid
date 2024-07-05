@@ -24,6 +24,7 @@ import {
   faKiwiBird,
 } from "@fortawesome/free-solid-svg-icons";
 import { faRust } from "@fortawesome/free-brands-svg-icons";
+import "./colors.css";
 
 const routes = [
   { path: "/", component: HomeView },
