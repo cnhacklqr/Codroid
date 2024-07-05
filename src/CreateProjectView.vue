@@ -46,7 +46,7 @@ const finishedList: Record<number, ComputedRef<boolean>> = {
 };
 
 const nextButtonDisabled = computed(
-  () => !finishedList[stepPrefixed.value].value
+  () => !finishedList[stepPrefixed.value].value,
 );
 
 const success = ref(false);
@@ -203,7 +203,7 @@ const backToHome = () => router.replace("/");
   margin: auto;
   margin-top: 1rem;
   margin-left: 1rem;
-  color: #9e9e9e;
+  color: var(--grey-lighten);
   font-size: small;
 }
 
