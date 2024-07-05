@@ -15,7 +15,7 @@ const projectInfos: Ref<ProjectInfos | null> = ref(null);
 const showPlaceholder = computed(() => {
   return (
     projectInfos.value === null ||
-    Object.values(projectInfos.value).length === 1
+    Object.values(projectInfos.value.infos).length === 0
   );
 });
 
