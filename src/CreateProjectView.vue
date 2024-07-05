@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ComputedRef, onMounted, ref, Ref } from "vue";
 import { useRouter } from "vue-router";
-import { useAppGlobal } from "./stores/appGlobal";
+import { useAppGlobal } from "./stores/app-global";
 import { commands, ProjectInfo, Template } from "./bindings";
 import { useProjectInfoGlobal } from "./stores/projectInfoGlobal";
 
@@ -46,7 +46,7 @@ const finishedList: Record<number, ComputedRef<boolean>> = {
 };
 
 const nextButtonDisabled = computed(
-  () => !finishedList[stepPrefixed.value].value,
+  () => !finishedList[stepPrefixed.value].value
 );
 
 const success = ref(false);

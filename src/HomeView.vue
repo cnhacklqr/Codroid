@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, Ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { useAppGlobal } from "./stores/appGlobal";
+import { useAppGlobal } from "./stores/app-global";
 import { commands, events } from "./bindings";
 
 const appGlobal = useAppGlobal();

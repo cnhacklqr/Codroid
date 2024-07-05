@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, Ref } from "vue";
 import ProjectCard from "./components/ProjectCard.vue";
-import { useAppGlobal } from "./stores/appGlobal";
+import { useAppGlobal } from "./stores/app-global";
 import { useProjectInfoGlobal } from "./stores/projectInfoGlobal";
 import { useRouter } from "vue-router";
 import { commands, events, ProjectInfo, ProjectInfos } from "./bindings";

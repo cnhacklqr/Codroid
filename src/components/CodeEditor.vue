@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import CodeMirror from "vue-codemirror6";
-import { light } from "./codemirrorTheme";
+import { light } from "./codemirror-theme";
 
 const value = ref("");
 

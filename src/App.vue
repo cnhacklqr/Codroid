@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { exit } from "@tauri-apps/plugin-process";
 import { useRouter } from "vue-router";
-import { useAppGlobal } from "./stores/appGlobal";
+import { useAppGlobal } from "./stores/app-global";
 
 const router = useRouter();
 const appGlobal = useAppGlobal();
