@@ -1,4 +1,8 @@
+Languages:[English](/README.md) [中文](/README_zh.md)
+
 # Codroid
+
+## Brief introduction
 
 **WIP** Rust IDE on android(and linux).
 
@@ -11,8 +15,8 @@
 - [ ] Project Editor
 - [ ] Rust Binary/Library Project Support
 - [ ] Tauri Project Support
-- [x] Project Creater(fronted)
-- [ ] Project List(frontend)
+- [x] Project Creater(front-end)
+- [ ] Project List(front-end)
 - [ ] Project Manager(backend)
 - [ ] Usable On Android
 - [ ] Usable On Linux
