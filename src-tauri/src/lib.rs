@@ -6,6 +6,7 @@ mod project_manager;
 #[cfg(target_os = "android")]
 mod proot;
 mod res;
+mod settings_manager;
 mod setup_process;
 
 use log::error;

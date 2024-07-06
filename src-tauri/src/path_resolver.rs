@@ -21,6 +21,7 @@ impl PathResolver {
     pub fn setup(&self) {
         let _ = fs::create_dir(self.codroid_home());
         let _ = fs::create_dir(self.cache_dir());
+        let _ = fs::create_dir(self.settings_dir());
 
         let bin_dir = self.bin_dir();
 
