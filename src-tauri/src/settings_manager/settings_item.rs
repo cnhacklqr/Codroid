@@ -9,12 +9,12 @@ pub struct Table {
 }
 
 impl Table {
-    pub fn from_toml_table(raw: toml::Table) -> Result<Table, String> {
+    pub fn from_toml_table(raw: toml::Table) -> Result<Self, String> {
         let mut data: HashMap<String, Value> = HashMap::new();
         for (key, value) in raw {
             data.insert(key, Value::from_toml_value(value)?);
         }
-        Ok(Table { data })
+        Ok(Self { data })
     }
 }
 
@@ -35,7 +35,7 @@ pub enum Value {
 }
 
 impl Value {
-    pub fn from_toml_value(raw: toml::Value) -> Result<Value, String> {
+    pub fn from_toml_value(raw: toml::Value) -> Result<Self, String> {
         let var_name: Self = match raw {
             toml::Value::Datetime(_) => {
                 return Err("Cannot create value object from this toml::value".to_string());
@@ -43,7 +43,7 @@ impl Value {
             toml::Value::String(str_v) => Self::String(str_v),
             toml::Value::Boolean(bool_v) => Self::Boolean(bool_v),
             toml::Value::Array(arr) => {
-                let mut result: Vec<Value> = Vec::new();
+                let mut result: Vec<Self> = Vec::new();
                 for element in arr {
                     result.push(Self::from_toml_value(element).unwrap());
                 }
@@ -52,14 +52,14 @@ impl Value {
             toml::Value::Integer(integer_v) => Self::Integer(integer_v),
             toml::Value::Float(float_v) => Self::Float(float_v),
             toml::Value::Table(table_v) => {
-                let mut result: HashMap<String, Value> = HashMap::new();
+                let mut result: HashMap<String, Self> = HashMap::new();
                 for (str_v, value_v) in table_v {
                     result.insert(str_v.clone(), Self::from_toml_value(value_v).unwrap());
                 }
                 Self::Table(Table { data: result })
             }
         };
-        return Ok(var_name);
+        Ok(var_name)
     }
 }
 

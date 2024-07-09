@@ -6,7 +6,7 @@ use super::{SettingsManager, SettingsManagerWrapper};
 #[tauri::command]
 #[specta::specta]
 pub fn settings_manager_get_setting_items(app: AppHandle) -> SettingItems {
-    SettingsManager::get_setting_items(app.clone())
+    SettingsManager::get_setting_items(app)
 }
 
 #[tauri::command]

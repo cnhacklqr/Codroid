@@ -49,7 +49,7 @@ async fn init(app: AppHandle) {
     let mut stepper = setup_process::Builder::new();
 
     {
-        let path_resolver = path_resolver.clone();
+        let path_resolver = path_resolver;
         stepper = stepper.next_step("Setting Home Directory".into(), move || {
             path_resolver.setup();
         });

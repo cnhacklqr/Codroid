@@ -6,7 +6,7 @@ use specta::Type;
 use tauri::AppHandle;
 use tauri_specta::Event;
 
-type StepFn = dyn FnOnce() -> ();
+type StepFn = dyn FnOnce();
 pub struct Builder {
     max_step: i32,
     steps: HashMap<i32, (String, Box<StepFn>)>,
@@ -22,7 +22,7 @@ impl Builder {
 
     pub fn next_step<F>(mut self, msg: String, step: F) -> Self
     where
-        F: FnOnce() -> () + 'static,
+        F: FnOnce() + 'static,
     {
         self.max_step += 1;
         self.steps.insert(self.max_step, (msg, Box::new(step)));
